@@ -3,7 +3,7 @@ import java.sql.*;
 
 public class EditContact {
 
-    public Connection conn;
+    public static Connection conn;
 
     public EditContact(String fileName) {
         // SQLite connection string
@@ -11,6 +11,45 @@ public class EditContact {
         conn = null;
         try {
             conn = DriverManager.getConnection(url);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public Connection getConn() {
+        return conn;
+    }
+
+    public static void InsertData(String name, String email, String street, String city, String state, String zip, String note) {
+        String sql = "INSERT INTO AddressBook(name,email,street,city,state,zip,note) VALUES(?,?,?,?,?,?,?)";
+
+        try (
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, name);
+            pstmt.setString(2, email);
+            pstmt.setString(3, street);
+            pstmt.setString(4, city);
+            pstmt.setString(5, state);
+            pstmt.setString(6, zip);
+            pstmt.setString(7, note);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public static void DeleteData(int id) {
+        String sql = "DELETE FROM AddressBook WHERE id = ?";
+
+        try (
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // set the corresponding param
+            pstmt.setInt(1, id);
+            // execute the delete statement
+            pstmt.executeUpdate();
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

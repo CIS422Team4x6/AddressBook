@@ -7,6 +7,8 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Book extends JFrame{
+    private Boolean isEditingContact = true;
+
     private JTabbedPane tabbedPane;
     private JTextField nameField;
     private JTextField addressField;
@@ -35,10 +37,22 @@ public class Book extends JFrame{
         menuBar.add(menuFile);
 
         JMenuItem itemNew = new JMenuItem("New");
-        //need action listener here
+        itemNew.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tabbedPane.setEnabledAt(0, false);
+                newContact();
+            }
+        });
         menuFile.add(itemNew);
 
         JMenuItem itemOpen = new JMenuItem("Open");
+        itemOpen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openContact();
+            }
+        });
         menuFile.add(itemOpen);
 
         JMenuItem itemClose = new JMenuItem("Close");
@@ -82,6 +96,12 @@ public class Book extends JFrame{
             }
         });
         JButton buttonOpen = new JButton("Open");
+        buttonOpen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openContact();
+            }
+        });
         JButton buttonRemove = new JButton("Remove");
         buttonRemove.addActionListener(new ActionListener() {
             @Override
@@ -178,6 +198,45 @@ public class Book extends JFrame{
     private void newContact() {
         clearFields();
         tabbedPane.setSelectedIndex(1);
+        isEditingContact = true;
+    }
+
+    private void openContact() {
+        int selectId;
+        clearFields();
+        tabbedPane.setSelectedIndex(1);
+        isEditingContact = false;
+        ArrayList<Integer> list = new ArrayList<>();
+        String sql = "SELECT id FROM AddressBook";
+        try (
+                Statement idstmt  = editContact.getConn().createStatement();
+                ResultSet idrs = idstmt.executeQuery(sql)){
+
+            // loop through the result set
+            while (idrs.next()) {
+                list.add(idrs.getInt("id"));
+            }
+            Integer[] idset = list.toArray(new Integer[list.size()]);
+            selectId = idset[contactsList.getSelectedIndex()];
+            sql = "SELECT * FROM AddressBook WHERE id=" + selectId;
+            try (
+                    Statement newstmt  = editContact.getConn().createStatement();
+                    ResultSet newrs = newstmt.executeQuery(sql)){
+
+                nameField.setText(newrs.getString("name"));
+                addressField.setText(newrs.getString("address"));
+                cityField.setText(newrs.getString("city"));
+                stateField.setText(newrs.getString("state"));
+                zipField.setText(newrs.getString("zip"));
+                phoneField.setText(newrs.getString("phone"));
+                noteArea.setText(newrs.getString("note"));
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     private void cancelEdit() {
@@ -185,20 +244,24 @@ public class Book extends JFrame{
         tabbedPane.setSelectedIndex(0);
         clearFields();
     }
-    private void saveContact() {
-        String name = nameField.getText();
-        String address = addressField.getText();
-        String city = addressField.getText();
-        String state = stateField.getText();
-        String zip = zipField.getText();
-        String phone = phoneField.getText();
-        String note = noteArea.getText();
 
-        InsertData(name, phone, address, city, state, zip, note);
+    private void saveContact() {
+        if (isEditingContact) {
+            String name = nameField.getText();
+            String address = addressField.getText();
+            String city = cityField.getText();
+            String state = stateField.getText();
+            String zip = zipField.getText();
+            String phone = phoneField.getText();
+            String note = noteArea.getText();
+
+            EditContact.InsertData(name, phone, address, city, state, zip, note);
+        }
 
         clearFields();
         tabbedPane.setSelectedIndex(0);
         updateContactsList();
+
     }
 
     private void removeContact() {
@@ -210,18 +273,18 @@ public class Book extends JFrame{
             ArrayList<Integer> list = new ArrayList<>();
             String sql = "SELECT id FROM AddressBook";
             try (
-                    Statement idstmt  = editContact.conn.createStatement();
+                    Statement idstmt  = editContact.getConn().createStatement();
                     ResultSet idrs = idstmt.executeQuery(sql)){
 
                 // loop through the result set
                 while (idrs.next()) {
                     list.add(idrs.getInt("id"));
                 }
+                Integer[] idset = list.toArray(new Integer[list.size()]);
+                EditContact.DeleteData(idset[contactsList.getSelectedIndex()]);
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
-            Integer[] idset = list.toArray(new Integer[list.size()]);
-            DeleteData(idset[contactsList.getSelectedIndex()]);
         }
         updateContactsList();
     }
@@ -240,7 +303,7 @@ public class Book extends JFrame{
         ArrayList<String> list = new ArrayList<>();
         String sql = "SELECT name FROM AddressBook";
         try (
-                Statement stmt  = editContact.conn.createStatement();
+                Statement stmt  = editContact.getConn().createStatement();
                 ResultSet rs    = stmt.executeQuery(sql)){
 
             // loop through the result set
@@ -249,41 +312,6 @@ public class Book extends JFrame{
             }
             contactsList.setListData(list.toArray(new String[list.size()]));
             contactsList.setSelectedIndex(0);
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private void InsertData(String name, String email, String street, String city, String state, String zip, String note) {
-        String sql = "INSERT INTO AddressBook(name,email,street,city,state,zip,note) VALUES(?,?,?,?,?,?,?)";
-
-        try (
-                PreparedStatement pstmt = editContact.conn.prepareStatement(sql)) {
-            pstmt.setString(1, name);
-            pstmt.setString(2, email);
-            pstmt.setString(3, street);
-            pstmt.setString(4, city);
-            pstmt.setString(5, state);
-            pstmt.setString(6, zip);
-            pstmt.setString(7, note);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-    }
-
-    public void DeleteData(int id) {
-        String sql = "DELETE FROM AddressBook WHERE id = ?";
-
-        try (
-                PreparedStatement pstmt = editContact.conn.prepareStatement(sql)) {
-
-            // set the corresponding param
-            pstmt.setInt(1, id);
-            // execute the delete statement
-            pstmt.executeUpdate();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
