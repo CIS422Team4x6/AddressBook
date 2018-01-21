@@ -7,7 +7,7 @@ public class EditContact {
 
     public EditContact(String fileName) {
         // SQLite connection string
-        String url = "jdbc:sqlite:" + fileName;
+        String url = "jdbc:sqlite:./" + fileName + ".db";
         conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -20,18 +20,21 @@ public class EditContact {
         return conn;
     }
 
-    public static void InsertData(String name, String email, String street, String city, String state, String zip, String note) {
-        String sql = "INSERT INTO AddressBook(name,email,street,city,state,zip,note) VALUES(?,?,?,?,?,?,?)";
+    public static void InsertData(String fname, String lname, String email, String street, String second, String city, String state, String zip, String note, String phone) {
+        String sql = "INSERT INTO AddressBook(fname,lname,email,street,second,city,state,zip,note,phone) VALUES(?,?,?,?,?,?,?,?,?,?)";
 
         try (
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, name);
-            pstmt.setString(2, email);
-            pstmt.setString(3, street);
-            pstmt.setString(4, city);
-            pstmt.setString(5, state);
-            pstmt.setString(6, zip);
-            pstmt.setString(7, note);
+            pstmt.setString(1, fname);
+            pstmt.setString(2, lname);
+            pstmt.setString(3, email);
+            pstmt.setString(4, street);
+            pstmt.setString(5, second);
+            pstmt.setString(6, city);
+            pstmt.setString(7, state);
+            pstmt.setString(8, zip);
+            pstmt.setString(9, note);
+            pstmt.setString(10, phone);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -55,78 +58,38 @@ public class EditContact {
         }
     }
 
-    /*
-
-    void InsertData(String name, String email, String street, String city, String state, int zip) {
-        String sql = "INSERT INTO AddressBook(name,email,street,city,state,zip) VALUES(?,?,?,?,?,?)";
-
-        try (
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, name);
-            pstmt.setString(2, email);
-            pstmt.setString(3, street);
-            pstmt.setString(4, city);
-            pstmt.setString(5, state);
-            pstmt.setInt(6, zip);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-    }
-
-    void EditData(){
-
-    }
-
-    void DeleteData(int id) {
-        String sql = "DELETE FROM AddressBook WHERE id = ?";
+    void EditData(int id, String fname, String lname, String email, String street, String second, String city, String state, String zip, String note, String phone){
+        String sql = "UPDATE AddressBook SET fname = ?,  "
+                + "lname = ?, "
+                + "email = ?,  "
+                + "street = ?, "
+                + "second = ?, "
+                + "city = ?,  "
+                + "state = ?,   "
+                + "zip = ?, "
+                + "note = ?,"
+                + "phone = ?"
+                + "WHERE id = ?";
 
         try (
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             // set the corresponding param
-            pstmt.setInt(1, id);
-            // execute the delete statement
+            pstmt.setString(1, fname);
+            pstmt.setString(2, lname);
+            pstmt.setString(3, email);
+            pstmt.setString(4, street);
+            pstmt.setString(5, second);
+            pstmt.setString(6, city);
+            pstmt.setString(7, state);
+            pstmt.setString(8, zip);
+            pstmt.setString(9, note);
+            pstmt.setString(10, phone);
+            // update
             pstmt.executeUpdate();
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    void SortbyName() {
-
-    }
-
-    void SortbyZip() {
-
-    }
-
-    void SaveasFile() {
-
-    }
-
-    public void SelectAll(){
-        String sql = "SELECT id, name, email,street,city,state,zip FROM AddressBook";
-
-        try (
-                Statement stmt  = conn.createStatement();
-                ResultSet rs    = stmt.executeQuery(sql)){
-
-            // loop through the result set
-            while (rs.next()) {
-                System.out.println(rs.getInt("id") +  "\t" +
-                        rs.getString("name") + "\t" +
-                        rs.getString("email") + "\t" +
-                        rs.getString("street") + "\t" +
-                        rs.getString("city") + "\t" +
-                        rs.getString("state") + "\t" +
-                        rs.getInt("zip"));
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-    */
 }
