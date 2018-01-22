@@ -16,6 +16,7 @@ public class Book extends JFrame{
     private static ArrayList<Contact> addressBook;
     private static ArrayList<Contact> deletedContact;
     private static Contact newContact;
+    private static Contact tempContact;
 
     private Boolean isCreatingContact = true;
     private static Boolean isModified;
@@ -284,7 +285,7 @@ public class Book extends JFrame{
         clearFields();
         tabbedPane.setSelectedIndex(1);
         isCreatingContact = false;
-        Contact tempContact = addressBook.get(contactsList.getSelectedIndex());
+        tempContact = addressBook.get(contactsList.getSelectedIndex());
         fnameField.setText(tempContact.getFname());
         lnameField.setText(tempContact.getLname());
         addressField.setText(tempContact.getStreet());
@@ -295,40 +296,6 @@ public class Book extends JFrame{
         emailField.setText(tempContact.getEmail());
         phoneField.setText(tempContact.getPhone());
         noteArea.setText(tempContact.getNote());
-        /*
-        ArrayList<Integer> list = new ArrayList<>();
-        String sql = "SELECT id FROM AddressBook";
-        try (
-                Statement idstmt  = editContact.getConn().createStatement();
-                ResultSet idrs = idstmt.executeQuery(sql)){
-
-            // loop through the result set
-            while (idrs.next()) {
-                list.add(idrs.getInt("id"));
-            }
-            Integer[] idset = list.toArray(new Integer[list.size()]);
-            selectId = idset[contactsList.getSelectedIndex()];
-            sql = "SELECT * FROM AddressBook WHERE id=" + selectId;
-            try (
-                    Statement newstmt  = editContact.getConn().createStatement();
-                    ResultSet newrs = newstmt.executeQuery(sql)){
-
-                fnameField.setText(newrs.getString("fname"));
-                lnameField.setText(newrs.getString("lname"));
-                addressField.setText(newrs.getString("address"));
-                cityField.setText(newrs.getString("city"));
-                stateField.setText(newrs.getString("state"));
-                zipField.setText(newrs.getString("zip"));
-                phoneField.setText(newrs.getString("phone"));
-                noteArea.setText(newrs.getString("note"));
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        */
-
     }
 
     private void cancelEdit() {
@@ -355,7 +322,7 @@ public class Book extends JFrame{
 
             //EditContact.InsertData(fname, lname, phone, address, second, city, state, zip, note);
         } else {
-            Contact tempContact = addressBook.get(contactsList.getSelectedIndex());
+            //Contact tempContact = addressBook.get(contactsList.getSelectedIndex());
             if (!(tempContact.getFname() == fnameField.getText() && tempContact.getLname() == lnameField.getText()
                     && tempContact.getStreet() == addressField.getText() && tempContact.getSecond() == secondField.getText()
                     && tempContact.getCity() == cityField.getText() && tempContact.getState() == stateField.getText()
@@ -372,6 +339,7 @@ public class Book extends JFrame{
                 tempContact.setPhone(phoneField.getText());
                 tempContact.setNote(noteArea.getText());
                 tempContact.setModified(true);
+                //System.out.println("1");
             }
         }
 
@@ -495,7 +463,8 @@ public class Book extends JFrame{
                 editContact.InsertData(c.getFname(), c.getLname(), c.getEmail(), c.getStreet(),
                         c.getSecond(), c.getCity(), c.getState(), c.getZip(), c.getNote(), c.getPhone());
             } else {
-                if (c.getIsModified() == true) {
+                if (c.getIsModified()) {
+                    //System.out.println(c.getLname());
                     editContact.EditData(c.getId(), c.getFname(), c.getLname(), c.getEmail(), c.getStreet(), c.getSecond(),
                             c.getCity(), c.getState(), c.getZip(), c.getNote(), c.getPhone());
                 }

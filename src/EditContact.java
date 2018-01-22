@@ -8,6 +8,7 @@ public class EditContact {
     public EditContact(String fileName) {
         // SQLite connection string
         String url = "jdbc:sqlite:./" + fileName + ".db";
+        //System.out.println(url);
         conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -85,8 +86,10 @@ public class EditContact {
             pstmt.setString(8, zip);
             pstmt.setString(9, note);
             pstmt.setString(10, phone);
+            pstmt.setInt(11, id);
             // update
             pstmt.executeUpdate();
+            //System.out.println("success");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

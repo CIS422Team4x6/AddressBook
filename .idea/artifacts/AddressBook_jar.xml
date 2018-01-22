@@ -1,9 +1,11 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="AddressBook:jar">
-    <output-path>$PROJECT_DIR$</output-path>
-    <root id="archive" name="AddressBook.jar">
-      <element id="module-output" name="AddressBook" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/src/sqlite-jdbc-3.21.0.jar" path-in-jar="/" />
+  <artifact name="AddressBook:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/AddressBook_jar</output-path>
+    <root id="root">
+      <element id="archive" name="AddressBook.jar">
+        <element id="module-output" name="AddressBook" />
+      </element>
+      <element id="library" level="application" name="sqlite-jdbc-3.21.0" />
     </root>
   </artifact>
 </component>

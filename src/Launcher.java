@@ -200,6 +200,8 @@ public class Launcher extends JFrame{
         ConnectDB.createNewTable(bookName);
 
         JFrame frame = new Book(bookName);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setPreferredSize(new Dimension(450, 450));
         frame.pack();
@@ -344,8 +346,9 @@ public class Launcher extends JFrame{
         }
 
         frame.setPreferredSize(new Dimension(450, 460));
-        frame.setVisible(true);
         frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
         updateBooksList();
     }
 }
