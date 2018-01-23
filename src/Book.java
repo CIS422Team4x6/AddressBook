@@ -13,14 +13,15 @@ import java.util.List;
 
 
 public class Book extends JFrame{
+    private Launcher launcher;
     private static ArrayList<Contact> addressBook;
     private static ArrayList<Contact> deletedContact;
     private static Contact newContact;
     private static Contact tempContact;
 
-    private Boolean isCreatingContact = true;
-    private Boolean isSortByLname = true;
-    private static Boolean isModified;
+    private boolean isCreatingContact = true;
+    private boolean isSortByLname = true;
+    private static boolean isModified;
 
     private JTabbedPane tabbedPane;
     private JTextField fnameField;
@@ -34,17 +35,18 @@ public class Book extends JFrame{
     private JTextField emailField;
     private JTextArea noteArea;
     private static DefaultTableModel model;
+    private CheckInput checkInput;
 
     private static JTable contactsTable;
     private static EditContact editContact;
 
-    public Book(String bookName) {
+    public Book(Launcher launcher, String bookName) {
+        this.launcher = launcher;
         editContact = new EditContact(bookName);
 
         System.setProperty("apple.laf.useScreenMenuBar", "true");
 
-        //Main Window
-        //setTitle("Address Book");
+        //Main Window=
         setTitle(bookName);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -52,10 +54,8 @@ public class Book extends JFrame{
             @Override
             public void windowClosing(WindowEvent e) {
                 closeBook();
-                //dispose();
             }
         });
-        //setSize(450, 600);
         setLocationRelativeTo(null);
 
         //Menu Bar
@@ -102,6 +102,12 @@ public class Book extends JFrame{
         menuFile.addSeparator();
 
         JMenuItem itemQuit = new JMenuItem("Quit");
+        itemQuit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                launcher.closeApp();
+            }
+        });
         menuFile.add(itemQuit);
 
         setJMenuBar(menuBar);
@@ -295,21 +301,23 @@ public class Book extends JFrame{
     }
 
     private void openContact() {
-        clearFields();
-        tabbedPane.setSelectedIndex(1);
-        tabbedPane.setEnabledAt(0, false);
-        isCreatingContact = false;
-        tempContact = addressBook.get(contactsTable.getSelectedRow());
-        fnameField.setText(tempContact.getFname());
-        lnameField.setText(tempContact.getLname());
-        addressField.setText(tempContact.getStreet());
-        secondField.setText(tempContact.getSecond());
-        cityField.setText(tempContact.getCity());
-        stateField.setText(tempContact.getState());
-        zipField.setText(tempContact.getZip());
-        emailField.setText(tempContact.getEmail());
-        phoneField.setText(tempContact.getPhone());
-        noteArea.setText(tempContact.getNote());
+        if (!contactsTable.getSelectionModel().isSelectionEmpty()) {
+            clearFields();
+            tabbedPane.setSelectedIndex(1);
+            tabbedPane.setEnabledAt(0, false);
+            isCreatingContact = false;
+            tempContact = addressBook.get(contactsTable.getSelectedRow());
+            fnameField.setText(tempContact.getFname());
+            lnameField.setText(tempContact.getLname());
+            addressField.setText(tempContact.getStreet());
+            secondField.setText(tempContact.getSecond());
+            cityField.setText(tempContact.getCity());
+            stateField.setText(tempContact.getState());
+            zipField.setText(tempContact.getZip());
+            emailField.setText(tempContact.getEmail());
+            phoneField.setText(tempContact.getPhone());
+            noteArea.setText(tempContact.getNote());
+        }
     }
 
     private void cancelEdit() {
@@ -331,41 +339,55 @@ public class Book extends JFrame{
             String note = noteArea.getText();
             String email = emailField.getText();
 
-            newContact = new Contact(0, fname, lname, email, address, second, city, state, zip, note, phone);
-            addressBook.add(newContact);
-            model.addRow(new Object[] {lname, fname, zip, phone});
+            checkInput = new CheckInput(this, fname, lname, email, city, state, zip, phone);
+            if (checkInput.checkAll()) {
+                newContact = new Contact(0, fname, lname, email, address, second, city, state, zip, note, phone);
+                addressBook.add(newContact);
+                model.addRow(new Object[]{lname, fname, zip, phone});
+                clearFields();
+                tabbedPane.setSelectedIndex(0);
+                if (isSortByLname) {
+                    sortByLname();
+                } else {
+                    sortByZip();
+                }
+
+                isModified = true;
+            }
         } else {
             if (!(tempContact.getFname() == fnameField.getText() && tempContact.getLname() == lnameField.getText()
                     && tempContact.getStreet() == addressField.getText() && tempContact.getSecond() == secondField.getText()
                     && tempContact.getCity() == cityField.getText() && tempContact.getState() == stateField.getText()
                     && tempContact.getZip() == zipField.getText() && tempContact.getEmail() == emailField.getText()
                     && tempContact.getPhone() == phoneField.getText() && tempContact.getNote() == noteArea.getText())) {
-                tempContact.setFname(fnameField.getText());
-                tempContact.setLname(lnameField.getText());
-                tempContact.setStreet(addressField.getText());
-                tempContact.setSecond(secondField.getText());
-                tempContact.setCity(cityField.getText());
-                tempContact.setState(stateField.getText());
-                tempContact.setZip(zipField.getText());
-                tempContact.setEmail(emailField.getText());
-                tempContact.setPhone(phoneField.getText());
-                tempContact.setNote(noteArea.getText());
-                tempContact.setModified(true);
-                model.removeRow(contactsTable.getSelectedRow());
-                model.addRow(new Object[] {tempContact.getLname(), tempContact.getFname(),
-                        tempContact.getZip(), tempContact.getPhone()});
+                checkInput = new CheckInput(this, fnameField.getText(), lnameField.getText(), emailField.getText(),
+                        cityField.getText(), stateField.getText(), zipField.getText(), phoneField.getText());
+                if (checkInput.checkAll()) {
+                    tempContact.setFname(fnameField.getText());
+                    tempContact.setLname(lnameField.getText());
+                    tempContact.setStreet(addressField.getText());
+                    tempContact.setSecond(secondField.getText());
+                    tempContact.setCity(cityField.getText());
+                    tempContact.setState(stateField.getText());
+                    tempContact.setZip(zipField.getText());
+                    tempContact.setEmail(emailField.getText());
+                    tempContact.setPhone(phoneField.getText());
+                    tempContact.setNote(noteArea.getText());
+                    tempContact.setModified(true);
+                    model.removeRow(contactsTable.getSelectedRow());
+                    model.addRow(new Object[]{tempContact.getLname(), tempContact.getFname(),
+                            tempContact.getZip(), tempContact.getPhone()});
+                    clearFields();
+                    tabbedPane.setSelectedIndex(0);
+                    if (isSortByLname) {
+                        sortByLname();
+                    } else {
+                        sortByZip();
+                    }
+                    isModified = true;
+                }
             }
         }
-
-        clearFields();
-        tabbedPane.setSelectedIndex(0);
-        if (isSortByLname) {
-            sortByLname();
-        } else {
-            sortByZip();
-        }
-
-        isModified = true;
     }
 
     private void removeContact() {
@@ -418,12 +440,12 @@ public class Book extends JFrame{
                     JOptionPane.YES_NO_CANCEL_OPTION);
             if (choice == 0) {
                 saveBook();
-                dispose();
+                this.dispose();
             } else if (choice == 1) {
-                dispose();
+                this.dispose();
             }
         } else {
-            dispose();
+            this.dispose();
         }
     }
 

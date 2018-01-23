@@ -17,11 +17,13 @@ public class Launcher extends JFrame{
     private static ArrayList<AdressBook> addressBooks;
     private static ArrayList<AdressBook> deletedBooks;
     private static AdressBook newBook;
-    //private static EditContact editContact = new EditContact("AllBooks");
     private static JList<String> booksList;
     private static Boolean isModified;
+    private static ArrayList<Book> openBooks;
 
     private Launcher() {
+        openBooks = new ArrayList<>();
+
         System.setProperty("apple.laf.useScreenMenuBar", "true");
 
         //Main Window
@@ -196,15 +198,17 @@ public class Launcher extends JFrame{
     }
 
     private void openBookView() {
-        String bookName = addressBooks.get(booksList.getSelectedIndex()).getBookName();
-        ConnectDB.createNewTable(bookName);
-
-        JFrame frame = new Book(bookName);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        frame.setPreferredSize(new Dimension(450, 450));
-        frame.pack();
+        if (!booksList.isSelectionEmpty()) {
+            String bookName = addressBooks.get(booksList.getSelectedIndex()).getBookName();
+            ConnectDB.createNewTable(bookName);
+            Book frame = new Book(this, bookName);
+            openBooks.add(frame);
+            frame.setPreferredSize(new Dimension(450, 450));
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+            //frame.pack();
+        }
     }
 
     private static void updateBooksList() {
@@ -217,6 +221,12 @@ public class Launcher extends JFrame{
     }
 
     public void closeApp() {
+        if (!openBooks.isEmpty()) {
+            int size = openBooks.size();
+            for (int i = 0; i < size; i++) {
+                openBooks.get(i).closeBook();
+            }
+        }
         if (isModified) {
             int choice = JOptionPane.showConfirmDialog(null, "Save the change?", "Save Change",
                     JOptionPane.YES_NO_CANCEL_OPTION);
@@ -236,17 +246,6 @@ public class Launcher extends JFrame{
         File file;
         for (AdressBook ab:addressBooks) {
             if (ab.getId() == 0) {
-                /*
-                try (Connection conn = DriverManager.getConnection("jdbc:sqlite:./" + ab.getBookName() + ".db");
-                     Statement stmt = conn.createStatement()) {
-                    if (conn != null) {
-                        stmt.close();
-                        conn.close();
-                    }
-                } catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-                */
                 try {
                     String p = "./"+ ab.getBookName()+".db";
                     Files.delete(Paths.get(p));
@@ -257,17 +256,6 @@ public class Launcher extends JFrame{
         }
 
         for (AdressBook db:deletedBooks) {
-            /*(
-            try (Connection conn = DriverManager.getConnection("jdbc:sqlite:./" + db.getBookName() + ".db");
-                 Statement stmt = conn.createStatement()) {
-                if (conn != null) {
-                    stmt.close();
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-            */
             try {
                 String p = "./"+ db.getBookName()+".db";
                 Files.delete(Paths.get(p));
@@ -309,18 +297,7 @@ public class Launcher extends JFrame{
                 }
 
             }
-            /*
-            try (Connection conn = DriverManager.getConnection("jdbc:sqlite:./" + db.getBookName() + ".db");
-                 Statement stmt = conn.createStatement()) {
-                if (conn != null) {
-                    stmt.close();
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                System.out.println("11");
-                System.out.println(e.getMessage());
-            }
-            */
+
             try {
                 String p = "./"+ db.getBookName()+".db";
                 Files.delete(Paths.get(p));

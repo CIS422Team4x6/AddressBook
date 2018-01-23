@@ -21,7 +21,7 @@ public class EditContact {
         return conn;
     }
 
-    public static void InsertData(String fname, String lname, String email, String street, String second, String city, String state, String zip, String note, String phone) {
+    public void InsertData(String fname, String lname, String email, String street, String second, String city, String state, String zip, String note, String phone) {
         String sql = "INSERT INTO AddressBook(fname,lname,email,street,second,city,state,zip,note,phone) VALUES(?,?,?,?,?,?,?,?,?,?)";
 
         try (
@@ -43,7 +43,7 @@ public class EditContact {
 
     }
 
-    public static void DeleteData(int id) {
+    public void DeleteData(int id) {
         String sql = "DELETE FROM AddressBook WHERE id = ?";
 
         try (
