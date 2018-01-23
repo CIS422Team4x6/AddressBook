@@ -1,16 +1,16 @@
-import sun.plugin2.ipc.windows.WindowsEvent;
-
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+
 
 public class Book extends JFrame{
     private static ArrayList<Contact> addressBook;
@@ -19,6 +19,7 @@ public class Book extends JFrame{
     private static Contact tempContact;
 
     private Boolean isCreatingContact = true;
+    private Boolean isSortByLname = true;
     private static Boolean isModified;
 
     private JTabbedPane tabbedPane;
@@ -32,10 +33,9 @@ public class Book extends JFrame{
     private JTextField phoneField;
     private JTextField emailField;
     private JTextArea noteArea;
-    private JComboBox<String> sortDropDown;
-    private String bookName;
+    private static DefaultTableModel model;
 
-    private static JList<String> contactsList;
+    private static JTable contactsTable;
     private static EditContact editContact;
 
     public Book(String bookName) {
@@ -106,9 +106,42 @@ public class Book extends JFrame{
 
         setJMenuBar(menuBar);
 
-        //List of all contacts
-        contactsList = new JList<>();
-        contactsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        //Table of all contacts
+        String[] columnNames = {"Last Name", "First Name", "ZIP", "Phone"};
+        //Object[][] o = {{"Chen", "Meixuan", "97401", "458"}};
+        model = new DefaultTableModel(null, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells are non-editable
+                return false;
+            }
+        };
+        contactsTable = new JTable(model);
+        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(contactsTable.getModel());
+        contactsTable.setRowSorter(sorter);
+
+        List<RowSorter.SortKey> sortKeys = new ArrayList<>(25);
+        sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+        sortKeys.add(new RowSorter.SortKey(2, SortOrder.ASCENDING));
+        sorter.setSortKeys(sortKeys);
+        sorter.setSortable(1, false);
+        sorter.setSortable(3, false);
+        contactsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        contactsTable.getTableHeader().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int col = contactsTable.columnAtPoint(e.getPoint());
+                if (col == 0) {
+                    isSortByLname = true;
+                    sortByLname();
+                } else if (col == 2) {
+                    isSortByLname = false;
+                    sortByZip();
+                }
+            }
+        });
+
+
 
         //Tabbed Pane: One is "All Contacts", the other one is "Contact"
         tabbedPane = new JTabbedPane();
@@ -117,26 +150,8 @@ public class Book extends JFrame{
         JPanel mainPanel = new JPanel();
         JPanel buttonPanel = new JPanel();
         JPanel sortPanel = new JPanel();
-        JScrollPane scrollPane = new JScrollPane(contactsList);
+        JScrollPane scrollPane = new JScrollPane(contactsTable);
         scrollPane.setPreferredSize(new Dimension(360, 270));
-
-        //drop-down
-        String[] sortBy = {"Last Name", "ZIP"};
-        sortDropDown = new JComboBox<>(sortBy);
-        sortDropDown.setSelectedIndex(0);
-        sortDropDown.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (sortDropDown.getSelectedIndex() == 0) {
-                    sortByLname();
-                } else {
-                    sortByZip();
-                }
-                updateContactsList();
-            }
-        });
-        //drop-down label
-        JLabel sortByLabel = new JLabel("Sort by:");
 
         //"All Contacts" Buttons
         JButton buttonNew = new JButton("New");
@@ -229,8 +244,8 @@ public class Book extends JFrame{
         buttonPanel.add(buttonNew);
         buttonPanel.add(buttonOpen);
         buttonPanel.add(buttonRemove);
-        sortPanel.add(sortByLabel);
-        sortPanel.add(sortDropDown);
+        //sortPanel.add(sortByLabel);
+        //sortPanel.add(sortDropDown);
 
         //"Contact" pane layout
         Border contactBorder = BorderFactory.createEmptyBorder(0, -5, 0, 0);
@@ -240,7 +255,6 @@ public class Book extends JFrame{
         fnamePanel.add(fnameField);
         lnamePanel.add(lnameLabel);
         lnamePanel.add(lnameField);
-        //contactPanel.add(contactButtonPanel, BorderLayout.PAGE_END);
 
         GridLayout informationPanelLayout = new GridLayout(10, 2);
 
@@ -272,7 +286,6 @@ public class Book extends JFrame{
         getContactsFromDB();
         deletedContact = new ArrayList<>();
         sortByLname();
-        updateContactsList();
     }
 
     private void newContact() {
@@ -284,8 +297,9 @@ public class Book extends JFrame{
     private void openContact() {
         clearFields();
         tabbedPane.setSelectedIndex(1);
+        tabbedPane.setEnabledAt(0, false);
         isCreatingContact = false;
-        tempContact = addressBook.get(contactsList.getSelectedIndex());
+        tempContact = addressBook.get(contactsTable.getSelectedRow());
         fnameField.setText(tempContact.getFname());
         lnameField.setText(tempContact.getLname());
         addressField.setText(tempContact.getStreet());
@@ -319,10 +333,8 @@ public class Book extends JFrame{
 
             newContact = new Contact(0, fname, lname, email, address, second, city, state, zip, note, phone);
             addressBook.add(newContact);
-
-            //EditContact.InsertData(fname, lname, phone, address, second, city, state, zip, note);
+            model.addRow(new Object[] {lname, fname, zip, phone});
         } else {
-            //Contact tempContact = addressBook.get(contactsList.getSelectedIndex());
             if (!(tempContact.getFname() == fnameField.getText() && tempContact.getLname() == lnameField.getText()
                     && tempContact.getStreet() == addressField.getText() && tempContact.getSecond() == secondField.getText()
                     && tempContact.getCity() == cityField.getText() && tempContact.getState() == stateField.getText()
@@ -339,18 +351,19 @@ public class Book extends JFrame{
                 tempContact.setPhone(phoneField.getText());
                 tempContact.setNote(noteArea.getText());
                 tempContact.setModified(true);
-                //System.out.println("1");
+                model.removeRow(contactsTable.getSelectedRow());
+                model.addRow(new Object[] {tempContact.getLname(), tempContact.getFname(),
+                        tempContact.getZip(), tempContact.getPhone()});
             }
         }
 
         clearFields();
         tabbedPane.setSelectedIndex(0);
-        if (sortDropDown.getSelectedIndex() == 0) {
+        if (isSortByLname) {
             sortByLname();
         } else {
             sortByZip();
         }
-        updateContactsList();
 
         isModified = true;
     }
@@ -362,28 +375,11 @@ public class Book extends JFrame{
                 "Remove Contact",
                 JOptionPane.YES_NO_CANCEL_OPTION);
         if (selection == 0) {
-            deletedContact.add(addressBook.get(contactsList.getSelectedIndex()));
-            addressBook.remove(contactsList.getSelectedIndex());
-            /*
-            ArrayList<Integer> list = new ArrayList<>();
-            String sql = "SELECT id FROM AddressBook";
-            try (
-                    Statement idstmt  = editContact.getConn().createStatement();
-                    ResultSet idrs = idstmt.executeQuery(sql)){
-
-                // loop through the result set
-                while (idrs.next()) {
-                    list.add(idrs.getInt("id"));
-                }
-                Integer[] idset = list.toArray(new Integer[list.size()]);
-                EditContact.DeleteData(idset[contactsList.getSelectedIndex()]);
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-            */
+            deletedContact.add(addressBook.get(contactsTable.getSelectedRow()));
+            addressBook.remove(contactsTable.getSelectedRow());
+            model.removeRow(contactsTable.getSelectedRow());
         }
 
-        updateContactsList();
         isModified = true;
     }
 
@@ -396,32 +392,6 @@ public class Book extends JFrame{
         zipField.setText("");
         phoneField.setText("");
         noteArea.setText("");
-    }
-
-    private static void updateContactsList() {
-        ArrayList<String> tempList = new ArrayList<>();
-        for (Contact c: addressBook) {
-            tempList.add(c.getLname() + ", " + c.getFname());
-        }
-        contactsList.setListData(tempList.toArray(new String[tempList.size()]));
-        contactsList.setSelectedIndex(0);
-        /*ArrayList<String> list = new ArrayList<>();
-        String sql = "SELECT name FROM AddressBook";
-        try (
-                Statement stmt  = editContact.getConn().createStatement();
-                ResultSet rs    = stmt.executeQuery(sql)){
-
-            // loop through the result set
-            while (rs.next()) {
-                list.add(rs.getString("name"));
-            }
-            contactsList.setListData(list.toArray(new String[list.size()]));
-            contactsList.setSelectedIndex(0);
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        */
     }
 
     public static void sortByLname() {
@@ -495,38 +465,21 @@ public class Book extends JFrame{
                         rs.getString("second"), rs.getString("city"),
                         rs.getString("state"), rs.getString("zip"),
                         rs.getString("note"), rs.getString("phone"));
-                //addressBook.add(rs.getString("name"));
                 addressBook.add(newContact);
             }
-            //contactsList.setListData(list.toArray(new String[list.size()]));
             if (addressBook.size() != 0) {
-                ArrayList<String> tempList = new ArrayList<>();
-                for (Contact c : addressBook) {
-                    tempList.add(c.getLname() + ", " + c.getFname());
+                Object[] temp;
+                for (int i = 0; i < addressBook.size(); i++) {
+                    temp = new Object[] {addressBook.get(i).getLname(), addressBook.get(i).getFname(),
+                            addressBook.get(i).getZip(), addressBook.get(i).getPhone()};
+                    model.addRow(temp);
+
                 }
-                contactsList.setListData(tempList.toArray(new String[tempList.size()]));
-                contactsList.setSelectedIndex(0);
+
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
-
-/*
-    public static void main(String[] args) {
-        //ConnectDB.connect();
-        //ConnectDB.createNewTable();
-
-        JFrame frame = new Book();
-        frame.setVisible(true);
-        frame.setPreferredSize(new Dimension(450, 450));
-        frame.pack();
-
-        getContactsFromDB();
-        deletedContact = new ArrayList<>();
-        sortByLname();
-        updateContactsList();
-    }
-    */
 }

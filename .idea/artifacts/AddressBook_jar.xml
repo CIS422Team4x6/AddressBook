@@ -5,7 +5,6 @@
       <element id="archive" name="AddressBook.jar">
         <element id="module-output" name="AddressBook" />
       </element>
-      <element id="library" level="application" name="sqlite-jdbc-3.21.0" />
     </root>
   </artifact>
 </component>
