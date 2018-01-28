@@ -1,12 +1,13 @@
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.xml.ws.soap.Addressing;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.*;
@@ -93,6 +94,12 @@ public class Launcher extends JFrame{
         menuFile.addSeparator();
 
         JMenuItem itemQuit = new JMenuItem("Quit");
+        itemQuit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                closeApp();
+            }
+        });
         menuFile.add(itemQuit);
 
         setJMenuBar(menuBar);
@@ -100,6 +107,55 @@ public class Launcher extends JFrame{
         //List of all address books
         booksList = new JList<>();
         booksList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        //DefaultListModel<String> model = (DefaultListModel<String>) booksList.getModel();
+
+        JPanel searchPanel = new JPanel();
+        JTextField searchField = new JTextField(20);
+        JLabel searchLabel = new JLabel("Search:");
+        searchPanel.add(searchLabel);
+        searchPanel.add(searchField);
+        searchField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                //model.clear();
+                ArrayList<String> tempList = new ArrayList<>();
+                String s = searchField.getText();
+                for (AdressBook ab : addressBooks) {
+                    if (ab.getBookName().contains(s)) {
+                        //model.addElement(ab.getBookName());
+                        tempList.add(ab.getBookName());
+                    }
+                }
+                booksList.setListData(tempList.toArray(new String[tempList.size()]));
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                ArrayList<String> tempList = new ArrayList<>();
+                String s = searchField.getText();
+                for (AdressBook ab : addressBooks) {
+                    if (ab.getBookName().contains(s)) {
+                        //model.addElement(ab.getBookName());
+                        tempList.add(ab.getBookName());
+                    }
+                }
+                booksList.setListData(tempList.toArray(new String[tempList.size()]));
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                ArrayList<String> tempList = new ArrayList<>();
+                String s = searchField.getText();
+                for (AdressBook ab : addressBooks) {
+                    if (ab.getBookName().contains(s)) {
+                        //model.addElement(ab.getBookName());
+                        tempList.add(ab.getBookName());
+                    }
+                }
+                booksList.setListData(tempList.toArray(new String[tempList.size()]));
+            }
+        });
+
 
         if (!Files.exists(Paths.get("./AllBooks.db"))) {
             ConnectDB.createBookList();
@@ -141,6 +197,7 @@ public class Launcher extends JFrame{
         Border border = BorderFactory.createEmptyBorder(5, 5, 5, 5);
         add(mainPanel);
         mainPanel.setBorder(border);
+        mainPanel.add(searchPanel, BorderLayout.PAGE_START);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.PAGE_END);
 
@@ -244,7 +301,7 @@ public class Launcher extends JFrame{
             ConnectDB.createNewTable(bookName);
             Book frame = new Book(this, bookName);
             openBooks.add(frame);
-            frame.setPreferredSize(new Dimension(450, 500));
+            frame.setPreferredSize(new Dimension(450, 530));
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);

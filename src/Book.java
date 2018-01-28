@@ -1,5 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -189,6 +191,36 @@ public class Book extends JFrame{
                 }
             }
         });
+        JPanel searchPanel = new JPanel();
+        JTextField searchFilter = new JTextField(20);
+        JLabel searchLabel = new JLabel("Search:");
+        searchPanel.add(searchLabel);
+        searchPanel.add(searchFilter);
+        searchFilter.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String text = searchFilter.getText();
+                if (text.trim().length() == 0) {
+                    sorter.setRowFilter(null);
+                } else {
+                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String text = searchFilter.getText();
+                if (text.trim().length() == 0) {
+                    sorter.setRowFilter(null);
+                } else {
+                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+            }
+        });
 
 
 
@@ -199,7 +231,7 @@ public class Book extends JFrame{
         //"All Contacts" Panels
         JPanel mainPanel = new JPanel();
         JPanel buttonPanel = new JPanel();
-        JPanel sortPanel = new JPanel();
+        //JPanel sortPanel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(contactsTable);
         scrollPane.setPreferredSize(new Dimension(360, 360));
 
@@ -288,7 +320,8 @@ public class Book extends JFrame{
 
         //"All Contacts" pane layout
         mainPanel.setBorder(border);
-        mainPanel.add(sortPanel, BorderLayout.PAGE_START);
+        mainPanel.add(searchPanel, BorderLayout.PAGE_START);
+        //mainPanel.add(sortPanel, BorderLayout.PAGE_START);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.PAGE_END);
         buttonPanel.add(buttonNew);
