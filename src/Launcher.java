@@ -297,7 +297,8 @@ public class Launcher extends JFrame{
 
     private void openBookView() {
         if (!booksList.isSelectionEmpty()) {
-            String bookName = addressBooks.get(booksList.getSelectedIndex()).getBookName();
+            String bookName = booksList.getModel().getElementAt(booksList.getSelectedIndex());
+            //String bookName = addressBooks.get(booksList.getSelectedIndex()).getBookName();
             ConnectDB.createNewTable(bookName);
             Book frame = new Book(this, bookName);
             openBooks.add(frame);
