@@ -76,6 +76,8 @@ public class Contact {
         return phone;
     }
 
+    public void setId(int id) {this.id = id;}
+
     public void setCity(String city) {
         this.city = city;
     }

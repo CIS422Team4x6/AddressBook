@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ConnectDB {
+    /*
     public static void connect() {
         Connection conn = null;
         try {
@@ -27,6 +28,7 @@ public class ConnectDB {
         }
 
     }
+    */
     public static void createNewTable(String fileName) {
         // SQLite connection string
         String url = "jdbc:sqlite:./" + fileName + ".db";
@@ -73,10 +75,4 @@ public class ConnectDB {
             System.out.println(e.getMessage());
         }
     }
-    /*
-    public static void main(String[] args) {
-        connect();
-        createNewTable();
-    }
-    */
 }

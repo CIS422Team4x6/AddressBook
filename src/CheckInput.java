@@ -92,7 +92,7 @@ public class CheckInput {
 
     private boolean checkCity() {
         boolean valid = false;
-        if (!city.equals("") && city.matches("^[a-zA-Z]+$")) {
+        if (!city.equals("") && (city.matches("^[a-zA-Z]+$") || city.matches("^[a-zA-Z]+ [a-zA-Z]+$"))) {
             valid = true;
         } else if (city.equals("")) {
             valid = true;

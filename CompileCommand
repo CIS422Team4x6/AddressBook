@@ -1,0 +1,2 @@
+javac *.java
+java -cp '.:sqlite-jdbc-3.21.0.jar' Launcher

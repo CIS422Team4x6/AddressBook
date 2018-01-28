@@ -19,9 +19,10 @@ public class Launcher extends JFrame{
     private static AdressBook newBook;
     private static JList<String> booksList;
     private static Boolean isModified;
-    private static ArrayList<Book> openBooks;
+    public static ArrayList<Book> openBooks;
 
     private Launcher() {
+
         openBooks = new ArrayList<>();
 
         System.setProperty("apple.laf.useScreenMenuBar", "true");
@@ -37,7 +38,6 @@ public class Launcher extends JFrame{
                 closeApp();
             }
         });
-        //setSize(450, 450);
         setLocationRelativeTo(null);
 
         //Menu Bar
@@ -69,10 +69,26 @@ public class Launcher extends JFrame{
         menuFile.addSeparator();
 
         JMenuItem itemSave = new JMenuItem("Save");
+        itemSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveBooksList();
+                isModified = false;
+                getAllBooksFromDB();
+                deletedBooks.clear();
+            }
+        });
         menuFile.add(itemSave);
-
+        /*
         JMenuItem itemSaveAs = new JMenuItem("Save As ...");
         menuFile.add(itemSaveAs);
+        */
+
+        JMenuItem itemImport = new JMenuItem("Import");
+        menuFile.add(itemImport);
+
+        JMenuItem itemExport = new JMenuItem("Export");
+        menuFile.add(itemExport);
 
         menuFile.addSeparator();
 
@@ -84,6 +100,12 @@ public class Launcher extends JFrame{
         //List of all address books
         booksList = new JList<>();
         booksList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        if (!Files.exists(Paths.get("./AllBooks.db"))) {
+            ConnectDB.createBookList();
+        } else {
+            getAllBooksFromDB();
+        }
 
         //Panels
         JPanel mainPanel = new JPanel();
@@ -130,7 +152,7 @@ public class Launcher extends JFrame{
 
     }
 
-    private void createNewBook() {
+    public void createNewBook() {
         boolean dup = false;
         String newBookName = "";
         newBookName = JOptionPane.showInputDialog(null, "Please input the name of the new book:");
@@ -158,6 +180,10 @@ public class Launcher extends JFrame{
         updateBooksList();
     }
 
+    public String getNewBookName() {
+        return addressBooks.get(addressBooks.size()-1).getBookName();
+    }
+
     private void removeBook() {
         int selection = JOptionPane.showConfirmDialog(null,
                 "Confirm to remove this adress book",
@@ -168,6 +194,21 @@ public class Launcher extends JFrame{
             addressBooks.remove(booksList.getSelectedIndex());
         }
         isModified = true;
+        updateBooksList();
+    }
+
+    public void modifyAddressBooks(String oldName, String newName) {
+        for (int i = 0; i < addressBooks.size(); i++) {
+            if (addressBooks.get(i).getBookName().equals(oldName)) {
+                deletedBooks.add(addressBooks.get(i));
+                addressBooks.remove(i);
+            }
+        }
+        //newBook = new AdressBook(0, newName);
+        //addressBooks.add(newBook);
+        //ConnectDB.createNewTable(newName);
+        saveBooksList();
+        isModified = false;
         updateBooksList();
     }
 
@@ -203,11 +244,11 @@ public class Launcher extends JFrame{
             ConnectDB.createNewTable(bookName);
             Book frame = new Book(this, bookName);
             openBooks.add(frame);
-            frame.setPreferredSize(new Dimension(450, 450));
+            frame.setPreferredSize(new Dimension(450, 500));
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
-            //frame.pack();
+            frame.pack();
         }
     }
 
@@ -243,7 +284,6 @@ public class Launcher extends JFrame{
     }
 
     public void deleteFile() {
-        File file;
         for (AdressBook ab:addressBooks) {
             if (ab.getId() == 0) {
                 try {
@@ -314,13 +354,6 @@ public class Launcher extends JFrame{
         addressBooks = new ArrayList<>();
         deletedBooks = new ArrayList<>();
         JFrame frame = new Launcher();
-
-        //File f = new File("./AllBooks.db");
-        if (Files.exists(Paths.get("./AllBooks.db"))) {
-            getAllBooksFromDB();
-        } else {
-            ConnectDB.createBookList();
-        }
 
         frame.setPreferredSize(new Dimension(450, 460));
         frame.pack();

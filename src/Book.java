@@ -5,6 +5,9 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +21,8 @@ public class Book extends JFrame{
     private static ArrayList<Contact> deletedContact;
     private static Contact newContact;
     private static Contact tempContact;
+    private String bookName;
+    private String saveAsName;
 
     private boolean isCreatingContact = true;
     private boolean isSortByLname = true;
@@ -41,13 +46,14 @@ public class Book extends JFrame{
     private static EditContact editContact;
 
     public Book(Launcher launcher, String bookName) {
+        this.bookName = bookName;
         this.launcher = launcher;
-        editContact = new EditContact(bookName);
+        editContact = new EditContact(this.bookName);
 
         System.setProperty("apple.laf.useScreenMenuBar", "true");
 
-        //Main Window=
-        setTitle(bookName);
+        //Main Window
+        setTitle(this.bookName);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -94,9 +100,44 @@ public class Book extends JFrame{
         menuFile.addSeparator();
 
         JMenuItem itemSave = new JMenuItem("Save");
+        itemSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveBook();
+                isModified = false;
+                model.setRowCount(0);
+                getContactsFromDB();
+                deletedContact.clear();
+            }
+        });
         menuFile.add(itemSave);
 
         JMenuItem itemSaveAs = new JMenuItem("Save As ...");
+        itemSaveAs.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                launcher.createNewBook();
+                saveAsName = launcher.getNewBookName();
+                /*
+                try {
+                    Files.copy(Paths.get("./" + bookName + ".db"), Paths.get("./" + saveAsName + ".db"));
+                } catch (IOException e1) {
+                    System.out.println(e1.getMessage());
+                }*/
+                launcher.modifyAddressBooks(bookName, saveAsName);
+                setBookName(saveAsName);
+                setTitle(saveAsName);
+                editContact = new EditContact(saveAsName);
+                for (Contact c : addressBook) {
+                    c.setId(0);
+                }
+                saveBook();
+                isModified = false;
+                model.setRowCount(0);
+                getContactsFromDB();
+                deletedContact.clear();
+            }
+        });
         menuFile.add(itemSaveAs);
 
         menuFile.addSeparator();
@@ -139,9 +180,11 @@ public class Book extends JFrame{
                 int col = contactsTable.columnAtPoint(e.getPoint());
                 if (col == 0) {
                     isSortByLname = true;
+                    contactsTable.setRowSelectionInterval(0, 0);
                     sortByLname();
                 } else if (col == 2) {
                     isSortByLname = false;
+                    contactsTable.setRowSelectionInterval(0, 0);
                     sortByZip();
                 }
             }
@@ -151,13 +194,14 @@ public class Book extends JFrame{
 
         //Tabbed Pane: One is "All Contacts", the other one is "Contact"
         tabbedPane = new JTabbedPane();
+        //JPanel allPanel = new JPanel();
 
         //"All Contacts" Panels
         JPanel mainPanel = new JPanel();
         JPanel buttonPanel = new JPanel();
         JPanel sortPanel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(contactsTable);
-        scrollPane.setPreferredSize(new Dimension(360, 270));
+        scrollPane.setPreferredSize(new Dimension(360, 360));
 
         //"All Contacts" Buttons
         JButton buttonNew = new JButton("New");
@@ -287,11 +331,22 @@ public class Book extends JFrame{
         informationPanel.add(buttonCancel);
         informationPanel.add(buttonDone);
 
+        /*GridLayout allPanelLayout = new GridLayout(1, 2);
+        allPanel.setLayout(allPanelLayout);
+        allPanel.add(mainPanel, BorderLayout.WEST);
+        allPanel.add(contactPanel, BorderLayout.EAST);
+        add(allPanel);
+        */
+
         isModified = false;
 
         getContactsFromDB();
         deletedContact = new ArrayList<>();
         sortByLname();
+    }
+
+    private void setBookName(String newName) {
+        bookName = newName;
     }
 
     private void newContact() {
@@ -391,18 +446,19 @@ public class Book extends JFrame{
     }
 
     private void removeContact() {
+        if (!contactsTable.getSelectionModel().isSelectionEmpty()) {
+            int selection = JOptionPane.showConfirmDialog(null,
+                    "Confirm to remove this contact",
+                    "Remove Contact",
+                    JOptionPane.YES_NO_CANCEL_OPTION);
+            if (selection == 0) {
+                deletedContact.add(addressBook.get(contactsTable.getSelectedRow()));
+                addressBook.remove(contactsTable.getSelectedRow());
+                model.removeRow(contactsTable.getSelectedRow());
+            }
 
-        int selection = JOptionPane.showConfirmDialog(null,
-                "Confirm to remove this contact",
-                "Remove Contact",
-                JOptionPane.YES_NO_CANCEL_OPTION);
-        if (selection == 0) {
-            deletedContact.add(addressBook.get(contactsTable.getSelectedRow()));
-            addressBook.remove(contactsTable.getSelectedRow());
-            model.removeRow(contactsTable.getSelectedRow());
+            isModified = true;
         }
-
-        isModified = true;
     }
 
     private void clearFields() {
@@ -447,6 +503,7 @@ public class Book extends JFrame{
         } else {
             this.dispose();
         }
+        launcher.openBooks.remove(this);
     }
 
     public void saveBook() {
