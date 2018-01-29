@@ -7,11 +7,14 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.net.URI;
 
 public class Book extends JFrame{
     private Launcher launcher;
@@ -41,17 +44,18 @@ public class Book extends JFrame{
     private JTextField phoneField2;
     private JTextField phoneField3;
     private JTextField emailField;
+    private JTextField linkField;
     private JTextArea noteArea;
     private static DefaultTableModel model;
     private CheckInput checkInput;
 
     private static JTable contactsTable;
-    private static EditContact editContact;
+    private static EditDB editContact;
 
     public Book(Launcher launcher, String bookName) {
         this.bookName = bookName;
         this.launcher = launcher;
-        editContact = new EditContact(this.bookName);
+        editContact = new EditDB(this.bookName);
 
         System.setProperty("apple.laf.useScreenMenuBar", "true");
 
@@ -130,7 +134,7 @@ public class Book extends JFrame{
                 launcher.modifyAddressBooks(bookName, saveAsName);
                 setBookName(saveAsName);
                 setTitle(saveAsName);
-                editContact = new EditContact(saveAsName);
+                editContact = new EditDB(saveAsName);
                 for (Contact c : addressBook) {
                     c.setId(0);
                 }
@@ -231,8 +235,6 @@ public class Book extends JFrame{
             }
         });
 
-
-
         //Tabbed Pane: One is "All Contacts", the other one is "Contact"
         tabbedPane = new JTabbedPane();
         //JPanel allPanel = new JPanel();
@@ -275,6 +277,7 @@ public class Book extends JFrame{
         //JPanel contactButtonPanel = new JPanel();
         JPanel phonePanel = new JPanel();
         JPanel informationPanel = new JPanel();
+        JPanel linkPanel = new JPanel();
 
         //"Contact" Labels
         JLabel fnameLabel = new JLabel("First Name:");
@@ -290,6 +293,7 @@ public class Book extends JFrame{
         JLabel lpLabel = new JLabel("(");
         JLabel rpLabel = new JLabel(")");
         JLabel dashLabel = new JLabel("-");
+        JLabel linkLabel = new JLabel("Social Media Link:");
 
         //"Contact" Text Fields
         fnameField = new JTextField(9);
@@ -303,6 +307,7 @@ public class Book extends JFrame{
         phoneField2 = new JTextField(3);
         phoneField3 = new JTextField(4);
         emailField = new JTextField(15);
+        linkField = new JTextField(10);
         noteArea = new JTextArea(10, 20);
         JScrollPane notePane = new JScrollPane(noteArea);
         noteArea.setLineWrap(true);
@@ -325,7 +330,14 @@ public class Book extends JFrame{
                 saveContact();
             }
         });
-
+        JButton buttonLink = new JButton("Open");
+        buttonLink.setPreferredSize(new Dimension(60, 25));
+        buttonLink.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openLink();
+            }
+        });
         //Layouts
         add(tabbedPane);
         tabbedPane.addTab("All Contacts", mainPanel);
@@ -342,6 +354,8 @@ public class Book extends JFrame{
         buttonPanel.add(buttonNew);
         buttonPanel.add(buttonOpen);
         buttonPanel.add(buttonRemove);
+        linkPanel.add(linkField);
+        linkPanel.add(buttonLink);
         //sortPanel.add(sortByLabel);
         //sortPanel.add(sortDropDown);
 
@@ -360,7 +374,7 @@ public class Book extends JFrame{
         phonePanel.add(dashLabel);
         phonePanel.add(phoneField3);
 
-        GridLayout informationPanelLayout = new GridLayout(10, 2);
+        GridLayout informationPanelLayout = new GridLayout(11, 2);
 
         informationPanel.setLayout(informationPanelLayout);
         informationPanel.setBorder(border);
@@ -382,6 +396,8 @@ public class Book extends JFrame{
         informationPanel.add(emailField);
         informationPanel.add(noteLabel);
         informationPanel.add(notePane);
+        informationPanel.add(linkLabel);
+        informationPanel.add(linkPanel);
         informationPanel.add(buttonCancel);
         informationPanel.add(buttonDone);
 
@@ -410,6 +426,23 @@ public class Book extends JFrame{
         clearFields();
         tabbedPane.setSelectedIndex(1);
         isCreatingContact = true;
+    }
+
+    private void openLink() {
+        if (!linkField.getText().equals("")) {
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    URI uri = new URI(linkField.getText());
+                    Desktop.getDesktop().browse(uri);
+                } catch (URISyntaxException e1) {
+                    JOptionPane.showMessageDialog(null, "Not a valid link");
+                    System.out.println(e1);
+                } catch (IOException e2) {
+                    JOptionPane.showMessageDialog(null, "Not a valid link");
+                    System.out.println(e2);
+                }
+            }
+        }
     }
 
     private void openContact() {
@@ -450,7 +483,7 @@ public class Book extends JFrame{
     private void cancelEdit() {
         tabbedPane.setEnabledAt(0, true);
         tabbedPane.setSelectedIndex(0);
-        contactsTable.setRowSelectionInterval(0,0);
+        //contactsTable.setRowSelectionInterval(0,0);
         clearFields();
     }
 
@@ -466,10 +499,11 @@ public class Book extends JFrame{
             String phone = phoneField1.getText() + phoneField2.getText() + phoneField3.getText();
             String note = noteArea.getText();
             String email = emailField.getText();
+            String link = linkField.getText();
 
             checkInput = new CheckInput(this, fname, lname, email, city, state, zip, phone);
             if (checkInput.checkAll()) {
-                newContact = new Contact(0, fname, lname, email, address, second, city, state, zip, note, phone);
+                newContact = new Contact(0, fname, lname, email, address, second, city, state, zip, note, phone, link);
                 addressBook.add(newContact);
                 model.addRow(new Object[]{lname, fname, zip, phone});
                 contactsTable.setRowSelectionInterval(0,0);
@@ -624,12 +658,12 @@ public class Book extends JFrame{
         for (Contact c:addressBook) {
             if (c.getId() == 0) {
                 editContact.InsertData(c.getFname(), c.getLname(), c.getEmail(), c.getStreet(),
-                        c.getSecond(), c.getCity(), c.getState(), c.getZip(), c.getNote(), c.getPhone());
+                        c.getSecond(), c.getCity(), c.getState(), c.getZip(), c.getNote(), c.getPhone(), c.getLink());
             } else {
                 if (c.getIsModified()) {
                     //System.out.println(c.getLname());
                     editContact.EditData(c.getId(), c.getFname(), c.getLname(), c.getEmail(), c.getStreet(), c.getSecond(),
-                            c.getCity(), c.getState(), c.getZip(), c.getNote(), c.getPhone());
+                            c.getCity(), c.getState(), c.getZip(), c.getNote(), c.getPhone(), c.getLink());
                 }
             }
         }
@@ -657,7 +691,8 @@ public class Book extends JFrame{
                         rs.getString("email"), rs.getString("street"),
                         rs.getString("second"), rs.getString("city"),
                         rs.getString("state"), rs.getString("zip"),
-                        rs.getString("note"), rs.getString("phone"));
+                        rs.getString("note"), rs.getString("phone"),
+                        rs.getString("link"));
                 addressBook.add(newContact);
             }
             if (addressBook.size() != 0) {

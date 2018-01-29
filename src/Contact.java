@@ -10,11 +10,12 @@ public class Contact {
     private String zip;
     private String note;
     private String phone;
+    private String link;
     private int id;
     private Boolean isModified;
 
     public Contact(int id, String fname, String lname, String email, String street, String second,
-                   String city, String state, String zip, String note, String phone) {
+                   String city, String state, String zip, String note, String phone, String link) {
         this.id = id;
         this.fname = fname;
         this.lname = lname;
@@ -26,6 +27,7 @@ public class Contact {
         this.zip = zip;
         this.note = note;
         this.phone = phone;
+        this.link = link;
         this.isModified = false;
     }
 
@@ -77,6 +79,10 @@ public class Contact {
         return phone;
     }
 
+    public String getLink() {
+        return link;
+    }
+
     public void setId(int id) {this.id = id;}
 
     public void setCity(String city) {
@@ -121,5 +127,9 @@ public class Contact {
 
     public void setModified(Boolean modified) {
         isModified = modified;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 }

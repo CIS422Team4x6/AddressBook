@@ -153,6 +153,8 @@ public class CheckInput {
         if (!state.equals("") && state.matches("^[A-Z]{2}$")) {
             valid = true;
         } else if (state.equals("")) {
+            valid = true;
+        } else {
             JOptionPane.showMessageDialog(book, "Please enter a state in format of U.S. State abbreviation");
         }
         return valid;

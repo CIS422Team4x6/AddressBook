@@ -11,14 +11,14 @@ public class TSV {
     private Launcher launcher;
     private String bookName;
     private static ArrayList<Contact> book;
-    private static EditContact editContact;
+    private static EditDB editContact;
     private static Contact newContact;
 
     public TSV(Launcher launcher, String bookName) {
         this.launcher = launcher;
         if (bookName != null) {
             this.bookName = bookName;
-            editContact = new EditContact(this.bookName);
+            editContact = new EditDB(this.bookName);
             getContactsFromDB();
         } else {
             book = new ArrayList<>();
@@ -67,7 +67,7 @@ public class TSV {
                     info = line.split("\\t");
                     if (info.length == 8) {
                         newContact = new Contact(0, info[6], info[5], "", info[3], info[4],
-                                info[0], info[1], info[2], "", info[7]);
+                                info[0], info[1], info[2], "", info[7], "");
                         book.add(newContact);
                     } else {
                         JOptionPane.showMessageDialog(null, "The format of the contact is not match. Import failed");
@@ -116,7 +116,8 @@ public class TSV {
                         rs.getString("email"), rs.getString("street"),
                         rs.getString("second"), rs.getString("city"),
                         rs.getString("state"), rs.getString("zip"),
-                        rs.getString("note"), rs.getString("phone"));
+                        rs.getString("note"), rs.getString("phone"),
+                        rs.getString("link"));
                 book.add(newContact);
             }
         } catch (SQLException e) {
