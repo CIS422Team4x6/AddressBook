@@ -9,6 +9,7 @@ public class CheckInput {
     private String state;
     private String zip;
     private String phone;
+    private boolean haveFname;
 
     public CheckInput(Book book, String fname, String lname, String email, String city, String state, String zip, String phone) {
         this.book = book;
@@ -23,7 +24,6 @@ public class CheckInput {
     }
 
     public boolean checkAll() {
-        boolean valid;
         if (!checkFname()) {
             return false;
         }
@@ -52,10 +52,12 @@ public class CheckInput {
         boolean valid = false;
         if (!fname.equals("") && fname.matches("[a-zA-z]+")) {
             valid = true;
+            haveFname = true;
             //JOptionPane.showMessageDialog(book, "Please enter a first name");
         } else if (fname.equals("")) {
-            valid = false;
-            JOptionPane.showMessageDialog(book, "Please enter a first name");
+            haveFname = false;
+            valid = true;
+            //JOptionPane.showMessageDialog(book, "Please enter a first name");
         } else {
             JOptionPane.showMessageDialog(book, "Invalid first name. Please try again");
         }
@@ -69,7 +71,12 @@ public class CheckInput {
             valid = true;
             //JOptionPane.showMessageDialog(book, "Please enter a last name");
         } else if (lname.equals("")) {
-            JOptionPane.showMessageDialog(book, "Please enter a last name");
+            if (!haveFname) {
+                JOptionPane.showMessageDialog(book, "Please enter a last name or a first name");
+            } else {
+                valid = true;
+                //JOptionPane.showMessageDialog(book, "Please enter a last name");
+            }
         } else {
             JOptionPane.showMessageDialog(book, "Invalid last name. Please try again");
         }
@@ -107,8 +114,14 @@ public class CheckInput {
         boolean valid = false;
         if (!zip.equals("") && (zip.matches("^[0-9]{5}$") || zip.matches("^[0-9]{5}-[0-9]{4}$"))){
             valid = true;
+        } else if (zip.equals("")) {
+            valid = true;
         } else {
-            JOptionPane.showMessageDialog(book, "Invalid zip code. Please try again");
+            int selection = JOptionPane.showConfirmDialog(book, "Entered zip is not in U.S. standard format. Are you sure to save it?",
+                    "Check Zip", JOptionPane.YES_NO_OPTION);
+            if (selection == 0) {
+                valid = true;
+            }
         }
         return valid;
     }
@@ -116,21 +129,21 @@ public class CheckInput {
     private boolean checkPhone() {
         boolean valid = false;
         if (!phone.equals("")) {
-            if (phone.matches("^[0-9]{10}$") //#########
-                    || phone.matches("^([0-9]{3})[0-9]{3}-[0-9]{4}$") //(###)###-####
+            if (phone.matches("^[0-9]{10}$")) {//#########
+                    /*|| phone.matches("^([0-9]{3})[0-9]{3}-[0-9]{4}$") //(###)###-####
                     || phone.matches("^([0-9]{3}) [0-9]{3}-[0-9]{4}$") //(###) ###-####
                     || phone.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$") //###-###-####
                     || phone.matches("^[0-9]{3}.[0-9]{3}.[0-9]{4}$") //###.###.####
                     || phone.matches("^[0-9]{7}$") //#######
                     || phone.matches("^[0-9]{3}.[0-9]{4}$") //###.####
                     || phone.matches("^[0-9]{3}-[0-9]{4}$") //###-####
-                    ){
+                    ){ */
                 valid = true;
             } else {
                 JOptionPane.showMessageDialog(book, "Invalid phone number. Please try again");
             }
         } else if (phone.equals("")) {
-            JOptionPane.showMessageDialog(book, "Please enter a phone number. Please try again");
+            JOptionPane.showMessageDialog(book, "Please enter a phone number");
         }
         return valid;
     }
@@ -140,7 +153,7 @@ public class CheckInput {
         if (!state.equals("") && state.matches("^[A-Z]{2}$")) {
             valid = true;
         } else if (state.equals("")) {
-            JOptionPane.showMessageDialog(book, "Please enter a state in format of US State abbreviation");
+            JOptionPane.showMessageDialog(book, "Please enter a state in format of U.S. State abbreviation");
         }
         return valid;
     }

@@ -13,7 +13,8 @@ public class Contact {
     private int id;
     private Boolean isModified;
 
-    public Contact(int id, String fname, String lname, String email, String street, String second, String city, String state, String zip, String note, String phone) {
+    public Contact(int id, String fname, String lname, String email, String street, String second,
+                   String city, String state, String zip, String note, String phone) {
         this.id = id;
         this.fname = fname;
         this.lname = lname;

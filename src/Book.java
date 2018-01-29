@@ -7,15 +7,11 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 
 public class Book extends JFrame{
     private Launcher launcher;
@@ -41,7 +37,9 @@ public class Book extends JFrame{
     private JTextField cityField;
     private JTextField stateField;
     private JTextField zipField;
-    private JTextField phoneField;
+    private JTextField phoneField1;
+    private JTextField phoneField2;
+    private JTextField phoneField3;
     private JTextField emailField;
     private JTextArea noteArea;
     private static DefaultTableModel model;
@@ -275,6 +273,7 @@ public class Book extends JFrame{
         JPanel fnamePanel = new JPanel();
         JPanel lnamePanel = new JPanel();
         //JPanel contactButtonPanel = new JPanel();
+        JPanel phonePanel = new JPanel();
         JPanel informationPanel = new JPanel();
 
         //"Contact" Labels
@@ -288,6 +287,9 @@ public class Book extends JFrame{
         JLabel phoneLabel = new JLabel("Phone:");
         JLabel emailLabel = new JLabel("Email:");
         JLabel noteLabel = new JLabel("Note:");
+        JLabel lpLabel = new JLabel("(");
+        JLabel rpLabel = new JLabel(")");
+        JLabel dashLabel = new JLabel("-");
 
         //"Contact" Text Fields
         fnameField = new JTextField(9);
@@ -297,7 +299,9 @@ public class Book extends JFrame{
         cityField = new JTextField(15);
         stateField = new JTextField(15);
         zipField = new JTextField(15);
-        phoneField = new JTextField(15);
+        phoneField1 = new JTextField(3);
+        phoneField2 = new JTextField(3);
+        phoneField3 = new JTextField(4);
         emailField = new JTextField(15);
         noteArea = new JTextArea(10, 20);
         JScrollPane notePane = new JScrollPane(noteArea);
@@ -349,6 +353,12 @@ public class Book extends JFrame{
         fnamePanel.add(fnameField);
         lnamePanel.add(lnameLabel);
         lnamePanel.add(lnameField);
+        phonePanel.add(lpLabel);
+        phonePanel.add(phoneField1);
+        phonePanel.add(rpLabel);
+        phonePanel.add(phoneField2);
+        phonePanel.add(dashLabel);
+        phonePanel.add(phoneField3);
 
         GridLayout informationPanelLayout = new GridLayout(10, 2);
 
@@ -367,7 +377,7 @@ public class Book extends JFrame{
         informationPanel.add(zipLabel);
         informationPanel.add(zipField);
         informationPanel.add(phoneLabel);
-        informationPanel.add(phoneField);
+        informationPanel.add(phonePanel);
         informationPanel.add(emailLabel);
         informationPanel.add(emailField);
         informationPanel.add(noteLabel);
@@ -389,6 +399,9 @@ public class Book extends JFrame{
         sortByLname();
     }
 
+    public void setAddressBook(ArrayList<Contact> book) {
+        addressBook = book;
+    }
     private void setBookName(String newName) {
         bookName = newName;
     }
@@ -405,13 +418,13 @@ public class Book extends JFrame{
             tabbedPane.setSelectedIndex(1);
             tabbedPane.setEnabledAt(0, false);
             isCreatingContact = false;
-            String selectLname = (String)contactsTable.getValueAt(contactsTable.getSelectedRow(), 0);
+            /*String selectLname = (String)contactsTable.getValueAt(contactsTable.getSelectedRow(), 0);
             for (Contact c : addressBook) {
                 if (c.getLname().equals(selectLname)) {
                     tempContact = c;
                 }
-            }
-            //tempContact = addressBook.get(contactsTable.getSelectedRow());
+            }*/
+            tempContact = addressBook.get(contactsTable.getSelectedRow());
             fnameField.setText(tempContact.getFname());
             lnameField.setText(tempContact.getLname());
             addressField.setText(tempContact.getStreet());
@@ -420,14 +433,24 @@ public class Book extends JFrame{
             stateField.setText(tempContact.getState());
             zipField.setText(tempContact.getZip());
             emailField.setText(tempContact.getEmail());
-            phoneField.setText(tempContact.getPhone());
+            phoneField1.setText(tempContact.getPhone().substring(0, 3));
+            phoneField2.setText(tempContact.getPhone().substring(3, 6));
+            phoneField3.setText(tempContact.getPhone().substring(6));
             noteArea.setText(tempContact.getNote());
+            /*
+            if (isSortByLname) {
+                sortByLname();
+            } else {
+                sortByZip();
+            }
+            */
         }
     }
 
     private void cancelEdit() {
         tabbedPane.setEnabledAt(0, true);
         tabbedPane.setSelectedIndex(0);
+        contactsTable.setRowSelectionInterval(0,0);
         clearFields();
     }
 
@@ -440,7 +463,7 @@ public class Book extends JFrame{
             String city = cityField.getText();
             String state = stateField.getText();
             String zip = zipField.getText();
-            String phone = phoneField.getText();
+            String phone = phoneField1.getText() + phoneField2.getText() + phoneField3.getText();
             String note = noteArea.getText();
             String email = emailField.getText();
 
@@ -449,6 +472,7 @@ public class Book extends JFrame{
                 newContact = new Contact(0, fname, lname, email, address, second, city, state, zip, note, phone);
                 addressBook.add(newContact);
                 model.addRow(new Object[]{lname, fname, zip, phone});
+                contactsTable.setRowSelectionInterval(0,0);
                 clearFields();
                 tabbedPane.setSelectedIndex(0);
                 if (isSortByLname) {
@@ -460,13 +484,16 @@ public class Book extends JFrame{
                 isModified = true;
             }
         } else {
+            int selectedRow = contactsTable.getSelectedRow();
             if (!(tempContact.getFname() == fnameField.getText() && tempContact.getLname() == lnameField.getText()
                     && tempContact.getStreet() == addressField.getText() && tempContact.getSecond() == secondField.getText()
                     && tempContact.getCity() == cityField.getText() && tempContact.getState() == stateField.getText()
                     && tempContact.getZip() == zipField.getText() && tempContact.getEmail() == emailField.getText()
-                    && tempContact.getPhone() == phoneField.getText() && tempContact.getNote() == noteArea.getText())) {
+                    && tempContact.getPhone() == phoneField1.getText() + phoneField2.getText() + phoneField3.getText()
+                    && tempContact.getNote() == noteArea.getText())) {
                 checkInput = new CheckInput(this, fnameField.getText(), lnameField.getText(), emailField.getText(),
-                        cityField.getText(), stateField.getText(), zipField.getText(), phoneField.getText());
+                        cityField.getText(), stateField.getText(), zipField.getText(),
+                        phoneField1.getText() + phoneField2.getText() + phoneField3.getText());
                 if (checkInput.checkAll()) {
                     tempContact.setFname(fnameField.getText());
                     tempContact.setLname(lnameField.getText());
@@ -476,14 +503,17 @@ public class Book extends JFrame{
                     tempContact.setState(stateField.getText());
                     tempContact.setZip(zipField.getText());
                     tempContact.setEmail(emailField.getText());
-                    tempContact.setPhone(phoneField.getText());
+                    tempContact.setPhone(phoneField1.getText() + phoneField2.getText() + phoneField3.getText());
                     tempContact.setNote(noteArea.getText());
                     tempContact.setModified(true);
-                    model.removeRow(contactsTable.getSelectedRow());
+                    //contactsTable.removeRowSelectionInterval(selectedRow, selectedRow);
+                    model.removeRow(selectedRow);
                     model.addRow(new Object[]{tempContact.getLname(), tempContact.getFname(),
                             tempContact.getZip(), tempContact.getPhone()});
+                    contactsTable.setRowSelectionInterval(0,0);
                     clearFields();
                     tabbedPane.setSelectedIndex(0);
+                    tempContact = null;
                     if (isSortByLname) {
                         sortByLname();
                     } else {
@@ -518,7 +548,9 @@ public class Book extends JFrame{
         cityField.setText("");
         stateField.setText("");
         zipField.setText("");
-        phoneField.setText("");
+        phoneField1.setText("");
+        phoneField2.setText("");
+        phoneField3.setText("");
         noteArea.setText("");
     }
 
@@ -527,6 +559,9 @@ public class Book extends JFrame{
             Collections.sort(addressBook, new Comparator<Contact>() {
                 @Override
                 public int compare(Contact o1, Contact o2) {
+                    if (o1.getLname().equals(o2.getLname())) {
+                        return o1.getZip().compareTo(o2.getZip());
+                    }
                     return (o1.getLname().compareTo(o2.getLname()));
                 }
             });
@@ -534,10 +569,14 @@ public class Book extends JFrame{
             Collections.sort(addressBook, new Comparator<Contact>() {
                 @Override
                 public int compare(Contact o1, Contact o2) {
+                    if (o1.getLname().equals(o2.getLname())) {
+                        return o2.getZip().compareTo(o1.getZip());
+                    }
                     return (o2.getLname().compareTo(o1.getLname()));
                 }
             });
         }
+        //contactsTable.setRowSelectionInterval(0,0);
     }
 
     public static void sortByZip() {
@@ -545,6 +584,9 @@ public class Book extends JFrame{
             Collections.sort(addressBook, new Comparator<Contact>() {
                 @Override
                 public int compare(Contact o1, Contact o2) {
+                    if (o1.getZip().equals(o2.getZip())) {
+                        return o1.getLname().compareTo(o2.getLname());
+                    }
                     return (o1.getZip().compareTo(o2.getZip()));
                 }
             });
@@ -552,10 +594,14 @@ public class Book extends JFrame{
             Collections.sort(addressBook, new Comparator<Contact>() {
                 @Override
                 public int compare(Contact o1, Contact o2) {
+                    if (o1.getZip().equals(o2.getZip())) {
+                        return o2.getLname().compareTo(o1.getLname());
+                    }
                     return (o2.getZip().compareTo(o1.getZip()));
                 }
             });
         }
+        //contactsTable.setRowSelectionInterval(0,0);
     }
 
     public void closeBook() {
@@ -597,7 +643,7 @@ public class Book extends JFrame{
         getRootPane().putClientProperty("Window.documentModified", Boolean.FALSE);
     }
 
-    public static void getContactsFromDB() {
+    private static void getContactsFromDB() {
         String sql = "SELECT * FROM AddressBook";
         addressBook = new ArrayList<>();
         try (
