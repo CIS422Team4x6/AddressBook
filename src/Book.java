@@ -20,6 +20,7 @@ public class Book extends JFrame{
     private Launcher launcher;
     private static ArrayList<Contact> addressBook;
     private static ArrayList<Contact> deletedContact;
+    private static ArrayList<Contact> searchedBook;
     private static Contact newContact;
     private static Contact tempContact;
     private String bookName;
@@ -56,6 +57,7 @@ public class Book extends JFrame{
         this.bookName = bookName;
         this.launcher = launcher;
         editContact = new EditDB(this.bookName);
+        searchedBook = new ArrayList<>();
 
         System.setProperty("apple.laf.useScreenMenuBar", "true");
 
@@ -125,12 +127,6 @@ public class Book extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 launcher.createNewBook();
                 saveAsName = launcher.getNewBookName();
-                /*
-                try {
-                    Files.copy(Paths.get("./" + bookName + ".db"), Paths.get("./" + saveAsName + ".db"));
-                } catch (IOException e1) {
-                    System.out.println(e1.getMessage());
-                }*/
                 launcher.modifyAddressBooks(bookName, saveAsName);
                 setBookName(saveAsName);
                 setTitle(saveAsName);
@@ -162,7 +158,6 @@ public class Book extends JFrame{
 
         //Table of all contacts
         String[] columnNames = {"Last Name", "First Name", "ZIP", "Phone"};
-        //Object[][] o = {{"Chen", "Meixuan", "97401", "458"}};
         model = new DefaultTableModel(null, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -315,6 +310,46 @@ public class Book extends JFrame{
         notePane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         notePane.setPreferredSize(new Dimension(10, 20));
 
+        phoneField1.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (phoneField1.getText().length() >= 3) {
+                    e.consume();
+                }
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {}
+
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
+        phoneField2.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (phoneField2.getText().length() >= 3) {
+                    e.consume();
+                }
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {}
+
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
+        phoneField3.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (phoneField3.getText().length() >= 4) {
+                    e.consume();
+                }
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {}
+
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
+
         //"Contact" Buttons
         JButton buttonCancel = new JButton("Cancel");
         buttonCancel.addActionListener(new ActionListener() {
@@ -457,7 +492,7 @@ public class Book extends JFrame{
                     tempContact = c;
                 }
             }*/
-            tempContact = addressBook.get(contactsTable.getSelectedRow());
+            tempContact = addressBook.get(contactsTable.getRowSorter().convertRowIndexToModel(contactsTable.getSelectedRow()));
             fnameField.setText(tempContact.getFname());
             lnameField.setText(tempContact.getLname());
             addressField.setText(tempContact.getStreet());

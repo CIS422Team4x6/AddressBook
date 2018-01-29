@@ -233,6 +233,7 @@ public class Launcher extends JFrame{
             }
             tsv = new TSV(this, booksList.getSelectedValue());
             tsv.exportTSV();
+            JOptionPane.showMessageDialog(null, "Export success. The tsv file is in /tsv directory");
         }
     }
 
@@ -246,6 +247,7 @@ public class Launcher extends JFrame{
             tsv = new TSV(this, null);
             tsv.importTSV(path);
         }
+        isModified = true;
         updateBooksList();
     }
 

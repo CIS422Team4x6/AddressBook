@@ -7,9 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="59b2b66e-f319-4326-b920-292418dc117a" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/AddressBook/EditContact.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/EditContact.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/EditContact.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AddressBook/Book$1.class" afterPath="$PROJECT_DIR$/out/production/AddressBook/Book$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AddressBook/Book$10.class" afterPath="$PROJECT_DIR$/out/production/AddressBook/Book$10.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AddressBook/Book$11.class" afterPath="$PROJECT_DIR$/out/production/AddressBook/Book$11.class" />
@@ -22,6 +19,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AddressBook/Book$18.class" afterPath="$PROJECT_DIR$/out/production/AddressBook/Book$18.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AddressBook/Book$19.class" afterPath="$PROJECT_DIR$/out/production/AddressBook/Book$19.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AddressBook/Book$2.class" afterPath="$PROJECT_DIR$/out/production/AddressBook/Book$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AddressBook/Book$20.class" afterPath="$PROJECT_DIR$/out/production/AddressBook/Book$20.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AddressBook/Book$3.class" afterPath="$PROJECT_DIR$/out/production/AddressBook/Book$3.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AddressBook/Book$4.class" afterPath="$PROJECT_DIR$/out/production/AddressBook/Book$4.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AddressBook/Book$5.class" afterPath="$PROJECT_DIR$/out/production/AddressBook/Book$5.class" />
@@ -30,18 +28,13 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AddressBook/Book$8.class" afterPath="$PROJECT_DIR$/out/production/AddressBook/Book$8.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AddressBook/Book$9.class" afterPath="$PROJECT_DIR$/out/production/AddressBook/Book$9.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AddressBook/Book.class" afterPath="$PROJECT_DIR$/out/production/AddressBook/Book.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AddressBook/ConnectDB.class" afterPath="$PROJECT_DIR$/out/production/AddressBook/ConnectDB.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AddressBook/Contact.class" afterPath="$PROJECT_DIR$/out/production/AddressBook/Contact.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AddressBook/Launcher.class" afterPath="$PROJECT_DIR$/out/production/AddressBook/Launcher.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AddressBook/TSV.class" afterPath="$PROJECT_DIR$/out/production/AddressBook/TSV.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/1.db" afterPath="$PROJECT_DIR$/1.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AllBooks.db" afterPath="$PROJECT_DIR$/AllBooks.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Book.java" afterPath="$PROJECT_DIR$/src/Book.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CheckInput.java" afterPath="$PROJECT_DIR$/src/CheckInput.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ConnectDB.java" afterPath="$PROJECT_DIR$/src/ConnectDB.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Contact.java" afterPath="$PROJECT_DIR$/src/Contact.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TSV.java" afterPath="$PROJECT_DIR$/src/TSV.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Launcher.java" afterPath="$PROJECT_DIR$/src/Launcher.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tsv/1.tsv" afterPath="$PROJECT_DIR$/tsv/1.tsv" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -60,14 +53,14 @@
       <file leaf-file-name="Launcher.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Launcher.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="457" column="22" lean-forward="false" selection-start-line="457" selection-start-column="22" selection-end-line="457" selection-end-column="22" />
+            <state relative-caret-position="3270">
+              <caret line="251" column="5" lean-forward="false" selection-start-line="251" selection-start-column="5" selection-end-line="251" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1517190037195" expanded="true" signature="10813:10828" ph="SELECT * FRO... BookList" />
-                <marker date="1517190037195" expanded="true" signature="10813:10835" ph="SELECT * FRO... BookList" />
-                <marker date="1517190037195" expanded="true" signature="14159:14199" ph="INSERT INTO BookList... " />
-                <marker date="1517190037195" expanded="true" signature="14755:14788" ph="DELETE FROM " />
+                <marker date="1517259787684" expanded="true" signature="10942:10957" ph="SELECT * FRO... BookList" />
+                <marker date="1517259787684" expanded="true" signature="10942:10964" ph="SELECT * FRO... BookList" />
+                <marker date="1517259787684" expanded="true" signature="14288:14328" ph="INSERT INTO BookList... " />
+                <marker date="1517259787684" expanded="true" signature="14884:14917" ph="DELETE FROM " />
               </folding>
             </state>
           </provider>
@@ -76,8 +69,8 @@
       <file leaf-file-name="EditDB.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/EditDB.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+            <state relative-caret-position="45">
+              <caret line="3" column="13" lean-forward="false" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
               <folding>
                 <marker date="1517198152237" expanded="true" signature="725:842" ph="INSERT INTO AddressBook... " />
                 <marker date="1517198152237" expanded="true" signature="1554:1590" ph="DELETE FROM " />
@@ -91,8 +84,8 @@
       <file leaf-file-name="TSV.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/TSV.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="116" column="37" lean-forward="false" selection-start-line="116" selection-start-column="37" selection-end-line="116" selection-end-column="37" />
+            <state relative-caret-position="1155">
+              <caret line="84" column="26" lean-forward="false" selection-start-line="84" selection-start-column="26" selection-end-line="84" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <marker date="1517198857480" expanded="true" signature="4284:4309" ph="SELECT * FRO... AddressBook" />
@@ -114,10 +107,9 @@
       <file leaf-file-name="ConnectDB.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ConnectDB.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
+            <state relative-caret-position="315">
               <caret line="24" column="29" lean-forward="false" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
               <folding>
-                <element signature="imports" expanded="true" />
                 <marker date="1517199129011" expanded="true" signature="367:763" ph="CREATE TABLE... AddressBook" />
                 <marker date="1517199129011" expanded="true" signature="367:807" ph="CREATE TABLE... AddressBook" />
                 <marker date="1517199129011" expanded="true" signature="367:860" ph="CREATE TABLE... AddressBook" />
@@ -132,39 +124,30 @@
         <entry file="file://$PROJECT_DIR$/src/Contact.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="285">
-              <caret line="19" column="27" lean-forward="true" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
-              <folding>
-                <element signature="e#1660#1661#0" expanded="true" />
-                <element signature="e#1687#1688#0" expanded="true" />
-                <element signature="e#2612#2613#0" expanded="true" />
-                <element signature="e#2644#2645#0" expanded="true" />
-              </folding>
+              <caret line="19" column="27" lean-forward="false" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Book.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Book.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Book.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="444" column="9" lean-forward="true" selection-start-line="444" selection-start-column="9" selection-end-line="444" selection-end-column="9" />
+            <state relative-caret-position="266">
+              <caret line="341" column="55" lean-forward="false" selection-start-line="341" selection-start-column="55" selection-end-line="341" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#12096#12097#0" expanded="true" />
-                <element signature="e#12141#12142#0" expanded="true" />
-                <element signature="e#12402#12403#0" expanded="true" />
-                <element signature="e#12444#12445#0" expanded="true" />
-                <marker date="1517200220368" expanded="true" signature="26379:26404" ph="SELECT * FRO... AddressBook" />
+                <marker date="1517260033007" expanded="true" signature="27414:27439" ph="SELECT * FRO... AddressBook" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CheckInput.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CheckInput.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CheckInput.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="401">
-              <caret line="157" column="109" lean-forward="false" selection-start-line="157" selection-start-column="109" selection-end-line="157" selection-end-column="109" />
+            <state relative-caret-position="2250">
+              <caret line="150" column="34" lean-forward="false" selection-start-line="150" selection-start-column="34" selection-end-line="150" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -181,7 +164,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>stmt</find>
       <find>sort</find>
       <find>addr</find>
       <find>address</find>
@@ -210,6 +192,8 @@
       <find>tempContact</find>
       <find>list</find>
       <find>EditContact</find>
+      <find>getSelectedRow()</find>
+      <find>phoneFiel</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -226,13 +210,13 @@
         <option value="$PROJECT_DIR$/src/Launcher.form" />
         <option value="$PROJECT_DIR$/src/AdressBook.java" />
         <option value="$PROJECT_DIR$/src/EditContact.java" />
-        <option value="$PROJECT_DIR$/src/Launcher.java" />
         <option value="$PROJECT_DIR$/src/EditDB.java" />
         <option value="$PROJECT_DIR$/src/Contact.java" />
         <option value="$PROJECT_DIR$/src/TSV.java" />
         <option value="$PROJECT_DIR$/src/ConnectDB.java" />
-        <option value="$PROJECT_DIR$/src/Book.java" />
         <option value="$PROJECT_DIR$/src/CheckInput.java" />
+        <option value="$PROJECT_DIR$/src/Launcher.java" />
+        <option value="$PROJECT_DIR$/src/Book.java" />
       </list>
     </option>
   </component>
@@ -243,7 +227,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="69" />
+    <option name="x" value="20" />
     <option name="y" value="23" />
     <option name="width" value="1260" />
     <option name="height" value="687" />
@@ -266,6 +250,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -294,7 +279,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
@@ -790,15 +774,18 @@
       <workItem from="1517164072025" duration="16672000" />
       <workItem from="1517196463492" duration="771000" />
       <workItem from="1517197579298" duration="2753000" />
+      <workItem from="1517243866754" duration="3320000" />
+      <workItem from="1517259862227" duration="207000" />
+      <workItem from="1517260101133" duration="64000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="103959000" />
+    <option name="totallyTimeSpent" value="107550000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="69" y="23" width="1260" height="687" extended-state="0" />
-    <editor active="true" />
+    <frame x="20" y="23" width="1260" height="687" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -815,7 +802,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21666667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21666667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -855,10 +842,10 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1517190037195" expanded="true" signature="10813:10828" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="10813:10835" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="14159:14199" ph="INSERT INTO BookList... " />
-            <marker date="1517190037195" expanded="true" signature="14755:14788" ph="DELETE FROM " />
+            <marker date="1517259787684" expanded="true" signature="10942:10957" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="10942:10964" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="14288:14328" ph="INSERT INTO BookList... " />
+            <marker date="1517259787684" expanded="true" signature="14884:14917" ph="DELETE FROM " />
           </folding>
         </state>
       </provider>
@@ -876,7 +863,6 @@
         <state relative-caret-position="420">
           <caret line="31" column="56" lean-forward="false" selection-start-line="31" selection-start-column="21" selection-end-line="31" selection-end-column="56" />
           <folding>
-            <element signature="imports" expanded="true" />
             <marker date="1517199129011" expanded="true" signature="367:763" ph="CREATE TABLE... AddressBook" />
             <marker date="1517199129011" expanded="true" signature="367:807" ph="CREATE TABLE... AddressBook" />
             <marker date="1517199129011" expanded="true" signature="367:860" ph="CREATE TABLE... AddressBook" />
@@ -890,12 +876,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1080">
           <caret line="115" column="27" lean-forward="true" selection-start-line="115" selection-start-column="27" selection-end-line="115" selection-end-column="27" />
-          <folding>
-            <element signature="e#1660#1661#0" expanded="true" />
-            <element signature="e#1687#1688#0" expanded="true" />
-            <element signature="e#2612#2613#0" expanded="true" />
-            <element signature="e#2644#2645#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -905,11 +886,7 @@
           <caret line="195" column="26" lean-forward="false" selection-start-line="195" selection-start-column="26" selection-end-line="195" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12096#12097#0" expanded="true" />
-            <element signature="e#12141#12142#0" expanded="true" />
-            <element signature="e#12402#12403#0" expanded="true" />
-            <element signature="e#12444#12445#0" expanded="true" />
-            <marker date="1517200220368" expanded="true" signature="26379:26404" ph="SELECT * FRO... AddressBook" />
+            <marker date="1517260033007" expanded="true" signature="27414:27439" ph="SELECT * FRO... AddressBook" />
           </folding>
         </state>
       </provider>
@@ -921,10 +898,10 @@
           <caret line="5" column="19" lean-forward="false" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1517190037195" expanded="true" signature="10813:10828" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="10813:10835" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="14159:14199" ph="INSERT INTO BookList... " />
-            <marker date="1517190037195" expanded="true" signature="14755:14788" ph="DELETE FROM " />
+            <marker date="1517259787684" expanded="true" signature="10942:10957" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="10942:10964" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="14288:14328" ph="INSERT INTO BookList... " />
+            <marker date="1517259787684" expanded="true" signature="14884:14917" ph="DELETE FROM " />
           </folding>
         </state>
       </provider>
@@ -934,7 +911,6 @@
         <state relative-caret-position="525">
           <caret line="38" column="34" lean-forward="true" selection-start-line="38" selection-start-column="34" selection-end-line="38" selection-end-column="34" />
           <folding>
-            <element signature="imports" expanded="true" />
             <marker date="1517199129011" expanded="true" signature="367:763" ph="CREATE TABLE... AddressBook" />
             <marker date="1517199129011" expanded="true" signature="367:807" ph="CREATE TABLE... AddressBook" />
             <marker date="1517199129011" expanded="true" signature="367:860" ph="CREATE TABLE... AddressBook" />
@@ -950,11 +926,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12096#12097#0" expanded="true" />
-            <element signature="e#12141#12142#0" expanded="true" />
-            <element signature="e#12402#12403#0" expanded="true" />
-            <element signature="e#12444#12445#0" expanded="true" />
-            <marker date="1517200220368" expanded="true" signature="26379:26404" ph="SELECT * FRO... AddressBook" />
+            <marker date="1517260033007" expanded="true" signature="27414:27439" ph="SELECT * FRO... AddressBook" />
           </folding>
         </state>
       </provider>
@@ -966,10 +938,10 @@
           <caret line="5" column="19" lean-forward="false" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1517190037195" expanded="true" signature="10813:10828" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="10813:10835" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="14159:14199" ph="INSERT INTO BookList... " />
-            <marker date="1517190037195" expanded="true" signature="14755:14788" ph="DELETE FROM " />
+            <marker date="1517259787684" expanded="true" signature="10942:10957" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="10942:10964" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="14288:14328" ph="INSERT INTO BookList... " />
+            <marker date="1517259787684" expanded="true" signature="14884:14917" ph="DELETE FROM " />
           </folding>
         </state>
       </provider>
@@ -979,7 +951,6 @@
         <state relative-caret-position="0">
           <caret line="0" column="7" lean-forward="true" selection-start-line="0" selection-start-column="7" selection-end-line="0" selection-end-column="7" />
           <folding>
-            <element signature="imports" expanded="true" />
             <marker date="1517199129011" expanded="true" signature="367:763" ph="CREATE TABLE... AddressBook" />
             <marker date="1517199129011" expanded="true" signature="367:807" ph="CREATE TABLE... AddressBook" />
             <marker date="1517199129011" expanded="true" signature="367:860" ph="CREATE TABLE... AddressBook" />
@@ -995,11 +966,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12096#12097#0" expanded="true" />
-            <element signature="e#12141#12142#0" expanded="true" />
-            <element signature="e#12402#12403#0" expanded="true" />
-            <element signature="e#12444#12445#0" expanded="true" />
-            <marker date="1517200220368" expanded="true" signature="26379:26404" ph="SELECT * FRO... AddressBook" />
+            <marker date="1517260033007" expanded="true" signature="27414:27439" ph="SELECT * FRO... AddressBook" />
           </folding>
         </state>
       </provider>
@@ -1011,10 +978,10 @@
           <caret line="5" column="19" lean-forward="false" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1517190037195" expanded="true" signature="10813:10828" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="10813:10835" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="14159:14199" ph="INSERT INTO BookList... " />
-            <marker date="1517190037195" expanded="true" signature="14755:14788" ph="DELETE FROM " />
+            <marker date="1517259787684" expanded="true" signature="10942:10957" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="10942:10964" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="14288:14328" ph="INSERT INTO BookList... " />
+            <marker date="1517259787684" expanded="true" signature="14884:14917" ph="DELETE FROM " />
           </folding>
         </state>
       </provider>
@@ -1024,7 +991,6 @@
         <state relative-caret-position="120">
           <caret line="11" column="36" lean-forward="false" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
           <folding>
-            <element signature="imports" expanded="true" />
             <marker date="1517199129011" expanded="true" signature="367:763" ph="CREATE TABLE... AddressBook" />
             <marker date="1517199129011" expanded="true" signature="367:807" ph="CREATE TABLE... AddressBook" />
             <marker date="1517199129011" expanded="true" signature="367:860" ph="CREATE TABLE... AddressBook" />
@@ -1040,11 +1006,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12096#12097#0" expanded="true" />
-            <element signature="e#12141#12142#0" expanded="true" />
-            <element signature="e#12402#12403#0" expanded="true" />
-            <element signature="e#12444#12445#0" expanded="true" />
-            <marker date="1517200220368" expanded="true" signature="26379:26404" ph="SELECT * FRO... AddressBook" />
+            <marker date="1517260033007" expanded="true" signature="27414:27439" ph="SELECT * FRO... AddressBook" />
           </folding>
         </state>
       </provider>
@@ -1056,10 +1018,10 @@
           <caret line="5" column="19" lean-forward="false" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1517190037195" expanded="true" signature="10813:10828" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="10813:10835" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="14159:14199" ph="INSERT INTO BookList... " />
-            <marker date="1517190037195" expanded="true" signature="14755:14788" ph="DELETE FROM " />
+            <marker date="1517259787684" expanded="true" signature="10942:10957" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="10942:10964" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="14288:14328" ph="INSERT INTO BookList... " />
+            <marker date="1517259787684" expanded="true" signature="14884:14917" ph="DELETE FROM " />
           </folding>
         </state>
       </provider>
@@ -1069,7 +1031,6 @@
         <state relative-caret-position="120">
           <caret line="11" column="36" lean-forward="false" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
           <folding>
-            <element signature="imports" expanded="true" />
             <marker date="1517199129011" expanded="true" signature="367:763" ph="CREATE TABLE... AddressBook" />
             <marker date="1517199129011" expanded="true" signature="367:807" ph="CREATE TABLE... AddressBook" />
             <marker date="1517199129011" expanded="true" signature="367:860" ph="CREATE TABLE... AddressBook" />
@@ -1085,11 +1046,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12096#12097#0" expanded="true" />
-            <element signature="e#12141#12142#0" expanded="true" />
-            <element signature="e#12402#12403#0" expanded="true" />
-            <element signature="e#12444#12445#0" expanded="true" />
-            <marker date="1517200220368" expanded="true" signature="26379:26404" ph="SELECT * FRO... AddressBook" />
+            <marker date="1517260033007" expanded="true" signature="27414:27439" ph="SELECT * FRO... AddressBook" />
           </folding>
         </state>
       </provider>
@@ -1101,10 +1058,10 @@
           <caret line="5" column="19" lean-forward="false" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1517190037195" expanded="true" signature="10813:10828" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="10813:10835" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="14159:14199" ph="INSERT INTO BookList... " />
-            <marker date="1517190037195" expanded="true" signature="14755:14788" ph="DELETE FROM " />
+            <marker date="1517259787684" expanded="true" signature="10942:10957" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="10942:10964" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="14288:14328" ph="INSERT INTO BookList... " />
+            <marker date="1517259787684" expanded="true" signature="14884:14917" ph="DELETE FROM " />
           </folding>
         </state>
       </provider>
@@ -1114,7 +1071,6 @@
         <state relative-caret-position="120">
           <caret line="11" column="36" lean-forward="false" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
           <folding>
-            <element signature="imports" expanded="true" />
             <marker date="1517199129011" expanded="true" signature="367:763" ph="CREATE TABLE... AddressBook" />
             <marker date="1517199129011" expanded="true" signature="367:807" ph="CREATE TABLE... AddressBook" />
             <marker date="1517199129011" expanded="true" signature="367:860" ph="CREATE TABLE... AddressBook" />
@@ -1130,11 +1086,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12096#12097#0" expanded="true" />
-            <element signature="e#12141#12142#0" expanded="true" />
-            <element signature="e#12402#12403#0" expanded="true" />
-            <element signature="e#12444#12445#0" expanded="true" />
-            <marker date="1517200220368" expanded="true" signature="26379:26404" ph="SELECT * FRO... AddressBook" />
+            <marker date="1517260033007" expanded="true" signature="27414:27439" ph="SELECT * FRO... AddressBook" />
           </folding>
         </state>
       </provider>
@@ -1146,10 +1098,10 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1517190037195" expanded="true" signature="10813:10828" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="10813:10835" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="14159:14199" ph="INSERT INTO BookList... " />
-            <marker date="1517190037195" expanded="true" signature="14755:14788" ph="DELETE FROM " />
+            <marker date="1517259787684" expanded="true" signature="10942:10957" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="10942:10964" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="14288:14328" ph="INSERT INTO BookList... " />
+            <marker date="1517259787684" expanded="true" signature="14884:14917" ph="DELETE FROM " />
           </folding>
         </state>
       </provider>
@@ -1160,11 +1112,7 @@
           <caret line="17" column="26" lean-forward="false" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12096#12097#0" expanded="true" />
-            <element signature="e#12141#12142#0" expanded="true" />
-            <element signature="e#12402#12403#0" expanded="true" />
-            <element signature="e#12444#12445#0" expanded="true" />
-            <marker date="1517200220368" expanded="true" signature="26379:26404" ph="SELECT * FRO... AddressBook" />
+            <marker date="1517260033007" expanded="true" signature="27414:27439" ph="SELECT * FRO... AddressBook" />
           </folding>
         </state>
       </provider>
@@ -1175,10 +1123,10 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1517190037195" expanded="true" signature="10813:10828" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="10813:10835" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="14159:14199" ph="INSERT INTO BookList... " />
-            <marker date="1517190037195" expanded="true" signature="14755:14788" ph="DELETE FROM " />
+            <marker date="1517259787684" expanded="true" signature="10942:10957" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="10942:10964" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="14288:14328" ph="INSERT INTO BookList... " />
+            <marker date="1517259787684" expanded="true" signature="14884:14917" ph="DELETE FROM " />
           </folding>
         </state>
       </provider>
@@ -1189,11 +1137,7 @@
           <caret line="17" column="26" lean-forward="false" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12096#12097#0" expanded="true" />
-            <element signature="e#12141#12142#0" expanded="true" />
-            <element signature="e#12402#12403#0" expanded="true" />
-            <element signature="e#12444#12445#0" expanded="true" />
-            <marker date="1517200220368" expanded="true" signature="26379:26404" ph="SELECT * FRO... AddressBook" />
+            <marker date="1517260033007" expanded="true" signature="27414:27439" ph="SELECT * FRO... AddressBook" />
           </folding>
         </state>
       </provider>
@@ -1204,10 +1148,10 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1517190037195" expanded="true" signature="10813:10828" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="10813:10835" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="14159:14199" ph="INSERT INTO BookList... " />
-            <marker date="1517190037195" expanded="true" signature="14755:14788" ph="DELETE FROM " />
+            <marker date="1517259787684" expanded="true" signature="10942:10957" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="10942:10964" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="14288:14328" ph="INSERT INTO BookList... " />
+            <marker date="1517259787684" expanded="true" signature="14884:14917" ph="DELETE FROM " />
           </folding>
         </state>
       </provider>
@@ -1277,46 +1221,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/EditContact.java" />
-    <entry file="file://$PROJECT_DIR$/src/Contact.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="27" lean-forward="true" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
-          <folding>
-            <element signature="e#1660#1661#0" expanded="true" />
-            <element signature="e#1687#1688#0" expanded="true" />
-            <element signature="e#2612#2613#0" expanded="true" />
-            <element signature="e#2644#2645#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/EditDB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding>
-            <marker date="1517198152237" expanded="true" signature="725:842" ph="INSERT INTO AddressBook... " />
-            <marker date="1517198152237" expanded="true" signature="1554:1590" ph="DELETE FROM " />
-            <marker date="1517198152237" expanded="true" signature="2155:2478" ph="UPDATE Addre... " />
-            <marker date="1517198152237" expanded="true" signature="2155:2540" ph="UPDATE Addre... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Launcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="457" column="22" lean-forward="false" selection-start-line="457" selection-start-column="22" selection-end-line="457" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1517190037195" expanded="true" signature="10813:10828" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="10813:10835" ph="SELECT * FRO... BookList" />
-            <marker date="1517190037195" expanded="true" signature="14159:14199" ph="INSERT INTO BookList... " />
-            <marker date="1517190037195" expanded="true" signature="14755:14788" ph="DELETE FROM " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AdressBook.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -1325,23 +1229,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/TSV.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="116" column="37" lean-forward="false" selection-start-line="116" selection-start-column="37" selection-end-line="116" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1517198857480" expanded="true" signature="4284:4309" ph="SELECT * FRO... AddressBook" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ConnectDB.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
+        <state relative-caret-position="315">
           <caret line="24" column="29" lean-forward="false" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
           <folding>
-            <element signature="imports" expanded="true" />
             <marker date="1517199129011" expanded="true" signature="367:763" ph="CREATE TABLE... AddressBook" />
             <marker date="1517199129011" expanded="true" signature="367:807" ph="CREATE TABLE... AddressBook" />
             <marker date="1517199129011" expanded="true" signature="367:860" ph="CREATE TABLE... AddressBook" />
@@ -1351,26 +1243,68 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Book.java">
+    <entry file="file://$PROJECT_DIR$/src/CheckInput.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="444" column="9" lean-forward="true" selection-start-line="444" selection-start-column="9" selection-end-line="444" selection-end-column="9" />
+        <state relative-caret-position="2250">
+          <caret line="150" column="34" lean-forward="false" selection-start-line="150" selection-start-column="34" selection-end-line="150" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/EditDB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="13" lean-forward="false" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#12096#12097#0" expanded="true" />
-            <element signature="e#12141#12142#0" expanded="true" />
-            <element signature="e#12402#12403#0" expanded="true" />
-            <element signature="e#12444#12445#0" expanded="true" />
-            <marker date="1517200220368" expanded="true" signature="26379:26404" ph="SELECT * FRO... AddressBook" />
+            <marker date="1517198152237" expanded="true" signature="725:842" ph="INSERT INTO AddressBook... " />
+            <marker date="1517198152237" expanded="true" signature="1554:1590" ph="DELETE FROM " />
+            <marker date="1517198152237" expanded="true" signature="2155:2478" ph="UPDATE Addre... " />
+            <marker date="1517198152237" expanded="true" signature="2155:2540" ph="UPDATE Addre... " />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/CheckInput.java">
+    <entry file="file://$PROJECT_DIR$/src/TSV.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="157" column="109" lean-forward="false" selection-start-line="157" selection-start-column="109" selection-end-line="157" selection-end-column="109" />
+        <state relative-caret-position="1155">
+          <caret line="84" column="26" lean-forward="false" selection-start-line="84" selection-start-column="26" selection-end-line="84" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1517198857480" expanded="true" signature="4284:4309" ph="SELECT * FRO... AddressBook" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Contact.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="27" lean-forward="false" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Launcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3270">
+          <caret line="251" column="5" lean-forward="false" selection-start-line="251" selection-start-column="5" selection-end-line="251" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1517259787684" expanded="true" signature="10942:10957" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="10942:10964" ph="SELECT * FRO... BookList" />
+            <marker date="1517259787684" expanded="true" signature="14288:14328" ph="INSERT INTO BookList... " />
+            <marker date="1517259787684" expanded="true" signature="14884:14917" ph="DELETE FROM " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Book.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="341" column="55" lean-forward="false" selection-start-line="341" selection-start-column="55" selection-end-line="341" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1517260033007" expanded="true" signature="27414:27439" ph="SELECT * FRO... AddressBook" />
+          </folding>
         </state>
       </provider>
     </entry>
