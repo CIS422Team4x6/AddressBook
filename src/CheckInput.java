@@ -9,9 +9,16 @@ public class CheckInput {
     private String state;
     private String zip;
     private String phone;
+    private String address;
+    private String second;
+    private String note;
+    private String link;
     private boolean haveFname;
+    private int nonEmptyField;
 
-    public CheckInput(Book book, String fname, String lname, String email, String city, String state, String zip, String phone) {
+    public CheckInput(Book book, String fname, String lname, String address,
+                      String second, String note, String link, String email,
+                      String city, String state, String zip, String phone) {
         this.book = book;
         this.fname = fname;
         this.lname = lname;
@@ -20,10 +27,14 @@ public class CheckInput {
         this.state = state;
         this.zip = zip;
         this.phone = phone;
-
+        this.address = address;
+        this.second = second;
+        this.note = note;
+        this.link = link;
     }
 
     public boolean checkAll() {
+        nonEmptyField = 0;
         if (!checkFname()) {
             return false;
         }
@@ -45,6 +56,26 @@ public class CheckInput {
         if (!checkEmail()) {
             return false;
         }
+        if (!checkAddress()) {
+            return false;
+        }
+        if (!checkSecond()) {
+            return false;
+        }
+        if (!checkNote()) {
+            return false;
+        }
+        if (!checkLink()) {
+            return false;
+        }
+
+        if (nonEmptyField == 0) {
+            JOptionPane.showMessageDialog(null,
+                    "Please fill at least one more field besides last name and first name");
+            return false;
+        }
+        nonEmptyField = 0;
+
         return true;
     }
 
@@ -88,6 +119,7 @@ public class CheckInput {
         boolean valid = false;
         if (!email.equals("") && email.matches("^[a-zA-z0-9_!#$%&'*+-/=?^`{|}~.,]+@{1}[a-zA-Z0-9]+.{1}[a-zA-Z]+$")) {
             valid = true;
+            nonEmptyField += 1;
         } else if (email.equals("")) {
             valid = true;
         } else {
@@ -101,6 +133,7 @@ public class CheckInput {
         boolean valid = false;
         if (!city.equals("") && (city.matches("^[a-zA-Z]+$") || city.matches("^[a-zA-Z]+ [a-zA-Z]+$"))) {
             valid = true;
+            nonEmptyField += 1;
         } else if (city.equals("")) {
             valid = true;
         } else {
@@ -114,6 +147,7 @@ public class CheckInput {
         boolean valid = false;
         if (!zip.equals("") && (zip.matches("^[0-9]{5}$") || zip.matches("^[0-9]{5}-[0-9]{4}$"))){
             valid = true;
+            nonEmptyField += 1;
         } else if (zip.equals("")) {
             valid = true;
         } else {
@@ -121,6 +155,7 @@ public class CheckInput {
                     "Check Zip", JOptionPane.YES_NO_OPTION);
             if (selection == 0) {
                 valid = true;
+                nonEmptyField += 1;
             }
         }
         return valid;
@@ -129,21 +164,22 @@ public class CheckInput {
     private boolean checkPhone() {
         boolean valid = false;
         if (!phone.equals("")) {
-            if (phone.matches("^[0-9]{10}$")) {//#########
-                    /*|| phone.matches("^([0-9]{3})[0-9]{3}-[0-9]{4}$") //(###)###-####
+            if (phone.matches("^[0-9]{10}$")//#########
+                    || phone.matches("^([0-9]{3})[0-9]{3}-[0-9]{4}$") //(###)###-####
                     || phone.matches("^([0-9]{3}) [0-9]{3}-[0-9]{4}$") //(###) ###-####
                     || phone.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$") //###-###-####
                     || phone.matches("^[0-9]{3}.[0-9]{3}.[0-9]{4}$") //###.###.####
                     || phone.matches("^[0-9]{7}$") //#######
                     || phone.matches("^[0-9]{3}.[0-9]{4}$") //###.####
                     || phone.matches("^[0-9]{3}-[0-9]{4}$") //###-####
-                    ){ */
+                    ){
                 valid = true;
+                nonEmptyField += 1;
             } else {
                 JOptionPane.showMessageDialog(book, "Invalid phone number. Please try again");
             }
         } else if (phone.equals("")) {
-            JOptionPane.showMessageDialog(book, "Please enter a phone number");
+            valid = true;
         }
         return valid;
     }
@@ -152,11 +188,40 @@ public class CheckInput {
         boolean valid = false;
         if (!state.equals("") && state.matches("^[A-Z]{2}$")) {
             valid = true;
+            nonEmptyField += 1;
         } else if (state.equals("")) {
             valid = true;
         } else {
             JOptionPane.showMessageDialog(book, "Please enter a state in format of U.S. State abbreviation");
         }
         return valid;
+    }
+
+    private boolean checkAddress() {
+        if (!address.equals("")) {
+            nonEmptyField += 1;
+        }
+        return true;
+    }
+
+    private boolean checkSecond() {
+        if (!second.equals("")) {
+            nonEmptyField += 1;
+        }
+        return true;
+    }
+
+    private boolean checkNote() {
+        if (!note.equals("")) {
+            nonEmptyField += 1;
+        }
+        return true;
+    }
+
+    private boolean checkLink() {
+        if (!link.equals("")) {
+            nonEmptyField += 1;
+        }
+        return true;
     }
 }

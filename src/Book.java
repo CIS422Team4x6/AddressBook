@@ -23,7 +23,7 @@ public class Book extends JFrame{
     private static ArrayList<Contact> searchedBook;
     private static Contact newContact;
     private static Contact tempContact;
-    private String bookName;
+    public static String bookName;
     private String saveAsName;
 
     private boolean isCreatingContact = true;
@@ -127,6 +127,7 @@ public class Book extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 launcher.createNewBook();
                 saveAsName = launcher.getNewBookName();
+                removeOldBookFromLauncher();
                 launcher.modifyAddressBooks(bookName, saveAsName);
                 setBookName(saveAsName);
                 setTitle(saveAsName);
@@ -139,6 +140,7 @@ public class Book extends JFrame{
                 model.setRowCount(0);
                 getContactsFromDB();
                 deletedContact.clear();
+                saveNewBookToLauncher();
             }
         });
         menuFile.add(itemSaveAs);
@@ -457,6 +459,13 @@ public class Book extends JFrame{
         bookName = newName;
     }
 
+    private void removeOldBookFromLauncher() {
+        launcher.openBooks.remove(this);
+    }
+    private void saveNewBookToLauncher() {
+        launcher.openBooks.add(this);
+    }
+
     private void newContact() {
         clearFields();
         tabbedPane.setSelectedIndex(1);
@@ -536,7 +545,8 @@ public class Book extends JFrame{
             String email = emailField.getText();
             String link = linkField.getText();
 
-            checkInput = new CheckInput(this, fname, lname, email, city, state, zip, phone);
+            checkInput = new CheckInput(this, fname, lname, address,
+                    second, note, link, email, city, state, zip, phone);
             if (checkInput.checkAll()) {
                 newContact = new Contact(0, fname, lname, email, address, second, city, state, zip, note, phone, link);
                 addressBook.add(newContact);
@@ -560,9 +570,10 @@ public class Book extends JFrame{
                     && tempContact.getZip() == zipField.getText() && tempContact.getEmail() == emailField.getText()
                     && tempContact.getPhone() == phoneField1.getText() + phoneField2.getText() + phoneField3.getText()
                     && tempContact.getNote() == noteArea.getText())) {
-                checkInput = new CheckInput(this, fnameField.getText(), lnameField.getText(), emailField.getText(),
-                        cityField.getText(), stateField.getText(), zipField.getText(),
-                        phoneField1.getText() + phoneField2.getText() + phoneField3.getText());
+                checkInput = new CheckInput(this, fnameField.getText(), lnameField.getText(),
+                        addressField.getText(), secondField.getText(), noteArea.getText(), linkField.getText(),
+                        emailField.getText(),cityField.getText(), stateField.getText(),
+                        zipField.getText(), phoneField1.getText() + phoneField2.getText() + phoneField3.getText());
                 if (checkInput.checkAll()) {
                     tempContact.setFname(fnameField.getText());
                     tempContact.setLname(lnameField.getText());

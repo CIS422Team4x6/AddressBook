@@ -18,6 +18,7 @@ import java.nio.file.*;
 public class Launcher extends JFrame{
     public static ArrayList<AdressBook> addressBooks;
     private static ArrayList<AdressBook> deletedBooks;
+    private static ArrayList<String> openedBooks;
     public static AdressBook newBook;
     private static JList<String> booksList;
     private static Boolean isModified;
@@ -57,6 +58,12 @@ public class Launcher extends JFrame{
         menuFile.add(itemNew);
 
         JMenuItem itemOpen = new JMenuItem("Open");
+        itemOpen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openBookView();
+            }
+        });
         menuFile.add(itemOpen);
 
         JMenuItem itemDelete = new JMenuItem("Delete");
@@ -303,9 +310,6 @@ public class Launcher extends JFrame{
                 addressBooks.remove(i);
             }
         }
-        //newBook = new AdressBook(0, newName);
-        //addressBooks.add(newBook);
-        //ConnectDB.createNewTable(newName);
         saveBooksList();
         isModified = false;
         updateBooksList();
@@ -339,16 +343,26 @@ public class Launcher extends JFrame{
 
     private void openBookView() {
         if (!booksList.isSelectionEmpty()) {
+            boolean opened = false;
             String bookName = booksList.getModel().getElementAt(booksList.getSelectedIndex());
             //String bookName = addressBooks.get(booksList.getSelectedIndex()).getBookName();
             //ConnectDB.createNewTable(bookName);
-            Book frame = new Book(this, bookName);
-            openBooks.add(frame);
-            frame.setPreferredSize(new Dimension(450, 530));
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-            frame.pack();
+            for (Book b : openBooks) {
+                if (b.bookName.equals(bookName)) {
+                    opened = true;
+                }
+            }
+            if (!opened) {
+                Book frame = new Book(this, bookName);
+                openBooks.add(frame);
+                frame.setPreferredSize(new Dimension(450, 530));
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+                frame.pack();
+            } else {
+                JOptionPane.showMessageDialog(null, "Selected book has opened");
+            }
         }
     }
 
