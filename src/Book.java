@@ -52,7 +52,7 @@ public class Book extends JFrame{
 
     private static JTable contactsTable;
     private static EditDB editContact;
-
+//Constructor
     public Book(Launcher launcher, String bookName) {
         this.bookName = bookName;
         this.launcher = launcher;
@@ -473,6 +473,7 @@ public class Book extends JFrame{
     }
 
     private void openLink() {
+    	//open link in browser
         if (!linkField.getText().equals("")) {
             if (Desktop.isDesktopSupported()) {
                 try {
@@ -501,6 +502,8 @@ public class Book extends JFrame{
                     tempContact = c;
                 }
             }*/
+            // get data from db
+            //reveal in field
             tempContact = addressBook.get(contactsTable.getRowSorter().convertRowIndexToModel(contactsTable.getSelectedRow()));
             fnameField.setText(tempContact.getFname());
             lnameField.setText(tempContact.getLname());
@@ -533,6 +536,7 @@ public class Book extends JFrame{
 
     private void saveContact() {
         if (isCreatingContact) {
+        	//get input
             String fname = fnameField.getText();
             String lname = lnameField.getText();
             String address = addressField.getText();
@@ -544,16 +548,19 @@ public class Book extends JFrame{
             String note = noteArea.getText();
             String email = emailField.getText();
             String link = linkField.getText();
-
+            //check
             checkInput = new CheckInput(this, fname, lname, address,
                     second, note, link, email, city, state, zip, phone);
+            //if all legal
             if (checkInput.checkAll()) {
+            	//inser values
                 newContact = new Contact(0, fname, lname, email, address, second, city, state, zip, note, phone, link);
                 addressBook.add(newContact);
                 model.addRow(new Object[]{lname, fname, zip, phone});
                 contactsTable.setRowSelectionInterval(0,0);
                 clearFields();
                 tabbedPane.setSelectedIndex(0);
+                //check sort
                 if (isSortByLname) {
                     sortByLname();
                 } else {
@@ -607,11 +614,13 @@ public class Book extends JFrame{
 
     private void removeContact() {
         if (!contactsTable.getSelectionModel().isSelectionEmpty()) {
+        	//pane to confirm
             int selection = JOptionPane.showConfirmDialog(null,
                     "Confirm to remove this contact",
                     "Remove Contact",
                     JOptionPane.YES_NO_CANCEL_OPTION);
             if (selection == 0) {
+            	//remove
                 deletedContact.add(addressBook.get(contactsTable.getSelectedRow()));
                 addressBook.remove(contactsTable.getSelectedRow());
                 model.removeRow(contactsTable.getSelectedRow());
@@ -622,6 +631,7 @@ public class Book extends JFrame{
     }
 
     private void clearFields() {
+    	//set all field to empty
         fnameField.setText("");
         lnameField.setText("");
         addressField.setText("");
@@ -635,21 +645,25 @@ public class Book extends JFrame{
     }
 
     public static void sortByLname() {
+    	//even save
         if (!(clickedLname % 2 == 0)) {
             Collections.sort(addressBook, new Comparator<Contact>() {
                 @Override
                 public int compare(Contact o1, Contact o2) {
                     if (o1.getLname().equals(o2.getLname())) {
+                    	//o1 first if equal
                         return o1.getZip().compareTo(o2.getZip());
                     }
                     return (o1.getLname().compareTo(o2.getLname()));
                 }
             });
         } else {
+        	// odd save
             Collections.sort(addressBook, new Comparator<Contact>() {
                 @Override
                 public int compare(Contact o1, Contact o2) {
                     if (o1.getLname().equals(o2.getLname())) {
+                    	//o2 first if equal
                         return o2.getZip().compareTo(o1.getZip());
                     }
                     return (o2.getLname().compareTo(o1.getLname()));
@@ -661,20 +675,24 @@ public class Book extends JFrame{
 
     public static void sortByZip() {
         if (!(clickedZip % 2 == 0)) {
+        	//even sort
             Collections.sort(addressBook, new Comparator<Contact>() {
                 @Override
                 public int compare(Contact o1, Contact o2) {
                     if (o1.getZip().equals(o2.getZip())) {
+                    	//o1 first if equal
                         return o1.getLname().compareTo(o2.getLname());
                     }
                     return (o1.getZip().compareTo(o2.getZip()));
                 }
             });
         } else {
+        	//odd sort
             Collections.sort(addressBook, new Comparator<Contact>() {
                 @Override
                 public int compare(Contact o1, Contact o2) {
                     if (o1.getZip().equals(o2.getZip())) {
+                    	//o2 first if equal
                         return o2.getLname().compareTo(o1.getLname());
                     }
                     return (o2.getZip().compareTo(o1.getZip()));
@@ -686,6 +704,7 @@ public class Book extends JFrame{
 
     public void closeBook() {
         if (isModified) {
+        	// new pane to ask save option
             int choice = JOptionPane.showConfirmDialog(null, "Save the change?", "Save Change",
                     JOptionPane.YES_NO_CANCEL_OPTION);
             if (choice == 0) {
@@ -701,6 +720,7 @@ public class Book extends JFrame{
     }
 
     public void saveBook() {
+    	//save action listener
         for (Contact c:addressBook) {
             if (c.getId() == 0) {
                 editContact.InsertData(c.getFname(), c.getLname(), c.getEmail(), c.getStreet(),
@@ -724,6 +744,7 @@ public class Book extends JFrame{
     }
 
     private static void getContactsFromDB() {
+    	// import all data from db into arraylist
         String sql = "SELECT * FROM AddressBook";
         addressBook = new ArrayList<>();
         try (
@@ -732,6 +753,7 @@ public class Book extends JFrame{
 
             // loop through the result set
             while (rs.next()) {
+            	//get data
                 newContact = new Contact(rs.getInt("id"),
                         rs.getString("fname"), rs.getString("lname"),
                         rs.getString("email"), rs.getString("street"),

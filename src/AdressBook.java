@@ -1,4 +1,7 @@
-
+/*
+ * Implement addressbook 
+ * instance for create new book
+ * */
 public class AdressBook {
     private String bookName;
     private int id;

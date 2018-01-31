@@ -1,4 +1,7 @@
-
+/*
+ * Implement contact 
+ * instance for create new contact
+ * */
 public class Contact {
     private String fname;
     private String lname;
@@ -13,7 +16,7 @@ public class Contact {
     private String link;
     private int id;
     private Boolean isModified;
-
+//Constructor
     public Contact(int id, String fname, String lname, String email, String street, String second,
                    String city, String state, String zip, String note, String phone, String link) {
         this.id = id;

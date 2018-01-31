@@ -15,7 +15,7 @@ public class CheckInput {
     private String link;
     private boolean haveFname;
     private int nonEmptyField;
-
+    //Constructor
     public CheckInput(Book book, String fname, String lname, String address,
                       String second, String note, String link, String email,
                       String city, String state, String zip, String phone) {
@@ -32,7 +32,7 @@ public class CheckInput {
         this.note = note;
         this.link = link;
     }
-
+// all input must be legal
     public boolean checkAll() {
         nonEmptyField = 0;
         if (!checkFname()) {
@@ -68,7 +68,7 @@ public class CheckInput {
         if (!checkLink()) {
             return false;
         }
-
+// at least one information must be inputed besides name
         if (nonEmptyField == 0) {
             JOptionPane.showMessageDialog(null,
                     "Please fill at least one more field besides last name and first name");
@@ -78,7 +78,7 @@ public class CheckInput {
 
         return true;
     }
-
+  //check if first name is empty or all alphabets
     private boolean checkFname() {
         boolean valid = false;
         if (!fname.equals("") && fname.matches("[a-zA-z]+")) {
@@ -95,7 +95,7 @@ public class CheckInput {
 
         return valid;
     }
-
+  //check if last name is empty or all alphabets
     private boolean checkLname() {
         boolean valid = false;
         if (!lname.equals("") && lname.matches("[a-zA-z]+")) {
@@ -114,7 +114,7 @@ public class CheckInput {
 
         return valid;
     }
-
+  //check if email is in the format of alphabets@tail
     private boolean checkEmail() {
         boolean valid = false;
         if (!email.equals("") && email.matches("^[a-zA-z0-9_!#$%&'*+-/=?^`{|}~.,]+@{1}[a-zA-Z0-9]+.{1}[a-zA-Z]+$")) {
@@ -128,7 +128,7 @@ public class CheckInput {
 
         return valid;
     }
-
+  //check if city name is alphabet 
     private boolean checkCity() {
         boolean valid = false;
         if (!city.equals("") && (city.matches("^[a-zA-Z]+$") || city.matches("^[a-zA-Z]+ [a-zA-Z]+$"))) {
@@ -142,7 +142,7 @@ public class CheckInput {
 
         return valid;
     }
-
+  //check if zip is 5 digits or 9 digits
     private boolean checkZip(){
         boolean valid = false;
         if (!zip.equals("") && (zip.matches("^[0-9]{5}$") || zip.matches("^[0-9]{5}-[0-9]{4}$"))){
@@ -160,7 +160,7 @@ public class CheckInput {
         }
         return valid;
     }
-
+  //check if phone is in some legal form
     private boolean checkPhone() {
         boolean valid = false;
         if (!phone.equals("")) {
@@ -183,7 +183,7 @@ public class CheckInput {
         }
         return valid;
     }
-
+  //check if state is alphabet legth of 2
     private boolean checkState() {
         boolean valid = false;
         if (!state.equals("") && state.matches("^[A-Z]{2}$")) {
@@ -196,28 +196,28 @@ public class CheckInput {
         }
         return valid;
     }
-
+  //check if address is empty
     private boolean checkAddress() {
         if (!address.equals("")) {
             nonEmptyField += 1;
         }
         return true;
     }
-
+  //check if second name is empty
     private boolean checkSecond() {
         if (!second.equals("")) {
             nonEmptyField += 1;
         }
         return true;
     }
-
+  //check if note is empty
     private boolean checkNote() {
         if (!note.equals("")) {
             nonEmptyField += 1;
         }
         return true;
     }
-
+//check if link is empty
     private boolean checkLink() {
         if (!link.equals("")) {
             nonEmptyField += 1;

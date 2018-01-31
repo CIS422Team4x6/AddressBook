@@ -1,5 +1,5 @@
 import java.sql.*;
-
+// reference from http://www.sqlitetutorial.net/sqlite-java/
 
 public class EditDB {
 
@@ -20,13 +20,14 @@ public class EditDB {
     public Connection getConn() {
         return conn;
     }
-
+    // insert new contact info into db within righ column
     public void InsertData(String fname, String lname, String email, String street, String second,
                            String city, String state, String zip, String note, String phone, String link) {
         String sql = "INSERT INTO AddressBook(fname,lname,email,street,second,city,state,zip,note,phone,link) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
-
+       
         try (
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        	// set the corresponding param
             pstmt.setString(1, fname);
             pstmt.setString(2, lname);
             pstmt.setString(3, email);
@@ -38,13 +39,14 @@ public class EditDB {
             pstmt.setString(9, note);
             pstmt.setString(10, phone);
             pstmt.setString(11,link);
+            //update
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
     }
-
+// delete one contact along with its id
     public void DeleteData(int id) {
         String sql = "DELETE FROM AddressBook WHERE id = ?";
 
@@ -60,7 +62,7 @@ public class EditDB {
             System.out.println(e.getMessage());
         }
     }
-
+// edit any contact info from db
     void EditData(int id, String fname, String lname, String email, String street, String second,
                   String city, String state, String zip, String note, String phone, String link){
         String sql = "UPDATE AddressBook SET fname = ?,  "

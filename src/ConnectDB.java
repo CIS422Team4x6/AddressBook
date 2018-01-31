@@ -2,7 +2,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+//reference from http://www.sqlitetutorial.net/sqlite-java/
 public class ConnectDB {
 
     public static void createNewTable(String fileName) {
