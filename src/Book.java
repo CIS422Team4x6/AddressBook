@@ -513,9 +513,17 @@ public class Book extends JFrame{
             stateField.setText(tempContact.getState());
             zipField.setText(tempContact.getZip());
             emailField.setText(tempContact.getEmail());
-            phoneField1.setText(tempContact.getPhone().substring(0, 3));
-            phoneField2.setText(tempContact.getPhone().substring(3, 6));
-            phoneField3.setText(tempContact.getPhone().substring(6));
+            if (!tempContact.getPhone().equals("")) {
+                if (tempContact.getPhone().length() == 10) {
+                    phoneField1.setText(tempContact.getPhone().substring(0, 3));
+                    phoneField2.setText(tempContact.getPhone().substring(3, 6));
+                    phoneField3.setText(tempContact.getPhone().substring(6));
+                } else if (tempContact.getPhone().length() == 7) {
+                    phoneField1.setText("");
+                    phoneField2.setText(tempContact.getPhone().substring(0, 3));
+                    phoneField3.setText(tempContact.getPhone().substring(3));
+                }
+            }
             noteArea.setText(tempContact.getNote());
             /*
             if (isSortByLname) {
@@ -556,7 +564,8 @@ public class Book extends JFrame{
             	//inser values
                 newContact = new Contact(0, fname, lname, email, address, second, city, state, zip, note, phone, link);
                 addressBook.add(newContact);
-                model.addRow(new Object[]{lname, fname, zip, phone});
+                //model.addRow(new Object[]{lname, fname, zip, phone});
+                updateContactsTable();
                 contactsTable.setRowSelectionInterval(0,0);
                 clearFields();
                 tabbedPane.setSelectedIndex(0);
@@ -594,9 +603,12 @@ public class Book extends JFrame{
                     tempContact.setNote(noteArea.getText());
                     tempContact.setModified(true);
                     //contactsTable.removeRowSelectionInterval(selectedRow, selectedRow);
+                    /*
                     model.removeRow(selectedRow);
                     model.addRow(new Object[]{tempContact.getLname(), tempContact.getFname(),
                             tempContact.getZip(), tempContact.getPhone()});
+                            */
+                    updateContactsTable();
                     contactsTable.setRowSelectionInterval(0,0);
                     clearFields();
                     tabbedPane.setSelectedIndex(0);
@@ -623,7 +635,8 @@ public class Book extends JFrame{
             	//remove
                 deletedContact.add(addressBook.get(contactsTable.getSelectedRow()));
                 addressBook.remove(contactsTable.getSelectedRow());
-                model.removeRow(contactsTable.getSelectedRow());
+                //model.removeRow(contactsTable.getSelectedRow());
+                updateContactsTable();
             }
 
             isModified = true;
@@ -741,6 +754,21 @@ public class Book extends JFrame{
         }
 
         getRootPane().putClientProperty("Window.documentModified", Boolean.FALSE);
+    }
+
+    private void updateContactsTable() {
+        model.setRowCount(0);
+        if (addressBook.size() != 0) {
+            Object[] temp;
+            for (int i = 0; i < addressBook.size(); i++) {
+                temp = new Object[] {addressBook.get(i).getLname(), addressBook.get(i).getFname(),
+                        addressBook.get(i).getZip(), addressBook.get(i).getPhone()};
+                model.addRow(temp);
+
+            }
+
+        }
+        sortByLname();
     }
 
     private static void getContactsFromDB() {

@@ -62,7 +62,13 @@ public class TSV {
 
     public void importTSV(String path) {
         try {
+            boolean success = true;
+            int countLine = 0;
             BufferedReader reader = new BufferedReader(new FileReader(path));
+            while (reader.readLine() != null) {
+                countLine += 1;
+            }
+            reader = new BufferedReader(new FileReader(path));
             //get file path
             bookName = path.substring((path.lastIndexOf("/") + 1), (path.lastIndexOf(".")));
             // check legality of each column
@@ -70,17 +76,20 @@ public class TSV {
                     "\tLastName" + "\tFirstName" + "\tPhone")) {
                 String[] info;
                 String line;
-                while ((line = reader.readLine()) != null) {
-                    // read each column info
-                	info = line.split("\\t");
-                    if (info.length == 8) {
-                    	//import all data into contact
-                        newContact = new Contact(0, info[6], info[5], "", info[3], info[4],
-                                info[0], info[1], info[2], "", info[7], "");
-                        book.add(newContact);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "The format of the contact is not match. Import failed");
-                        break;
+                for (int i = 1; i < countLine; i++) {
+                    line = reader.readLine() + "\t";
+                    if (line != null) {
+                        info = line.split("\\t");
+                        if (info.length == 8) {
+                            //import all data into contact
+                            newContact = new Contact(0, info[6], info[5], "", info[3], info[4],
+                                    info[0], info[1], info[2], "", info[7], "");
+                            book.add(newContact);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "The format of the contact is not match. Import failed");
+                            success = false;
+                            break;
+                        }
                     }
                 }
                 boolean dup = false;
@@ -88,6 +97,7 @@ public class TSV {
                     for (AdressBook ab : launcher.addressBooks) {
                         if (ab.getBookName().equals(bookName)) {
                             dup = true;
+                            success = false;
                         }
                     }
                 }
@@ -95,14 +105,17 @@ public class TSV {
                 	//check duplicated bookid
                     JOptionPane.showMessageDialog(null, "An address book with this name exists. Import failed");
                 } else {
-                	//import data into database
-                    AdressBook newBook = new AdressBook(0, bookName);
-                    launcher.addressBooks.add(newBook);
-                    ConnectDB.createNewTable(bookName);
+                    if (success) {
+                        //import data into database
+                        AdressBook newBook = new AdressBook(0, bookName);
+                        launcher.addressBooks.add(newBook);
+                        ConnectDB.createNewTable(bookName);
+
+                        Book addressbook = new Book(launcher, bookName);
+                        addressbook.setAddressBook(book);
+                        addressbook.saveBook();
+                    }
                 }
-                Book addressbook = new Book(launcher, bookName);
-                addressbook.setAddressBook(book);
-                addressbook.saveBook();
             } else {
                 JOptionPane.showMessageDialog(null, "The format is not match. Import failed");
             }
