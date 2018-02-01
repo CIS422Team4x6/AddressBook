@@ -20,7 +20,6 @@ public class Book extends JFrame{
     private Launcher launcher;
     private static ArrayList<Contact> addressBook;
     private static ArrayList<Contact> deletedContact;
-    private static ArrayList<Contact> searchedBook;
     private static Contact newContact;
     private static Contact tempContact;
     public static String bookName;
@@ -29,7 +28,6 @@ public class Book extends JFrame{
     private boolean isCreatingContact = true;
     private boolean isSortByLname = true;
     private static boolean isModified;
-    //private static SortOrder order;
     private static int clickedLname = 1;
     private static int clickedZip = 0;
 
@@ -57,7 +55,6 @@ public class Book extends JFrame{
         this.bookName = bookName;
         this.launcher = launcher;
         editContact = new EditDB(this.bookName);
-        searchedBook = new ArrayList<>();
 
         System.setProperty("apple.laf.useScreenMenuBar", "true");
 
@@ -185,19 +182,19 @@ public class Book extends JFrame{
             public void mouseClicked(MouseEvent e) {
                 int col = contactsTable.columnAtPoint(e.getPoint());
                 if (col == 0) {
-                    //order = sortKeys.get(0).getSortOrder();
                     clickedLname += 1;
                     clickedZip = 0;
                     isSortByLname = true;
-                    contactsTable.setRowSelectionInterval(0, 0);
                     sortByLname();
+                    updateContactsTable();
+                    contactsTable.setRowSelectionInterval(0, 0);
                 } else if (col == 2) {
-                    //order = sortKeys.get(1).getSortOrder();
                     clickedZip += 1;
                     clickedLname = 0;
                     isSortByLname = false;
-                    contactsTable.setRowSelectionInterval(0, 0);
                     sortByZip();
+                    updateContactsTable();
+                    contactsTable.setRowSelectionInterval(0, 0);
                 }
             }
         });
@@ -438,13 +435,6 @@ public class Book extends JFrame{
         informationPanel.add(buttonCancel);
         informationPanel.add(buttonDone);
 
-        /*GridLayout allPanelLayout = new GridLayout(1, 2);
-        allPanel.setLayout(allPanelLayout);
-        allPanel.add(mainPanel, BorderLayout.WEST);
-        allPanel.add(contactPanel, BorderLayout.EAST);
-        add(allPanel);
-        */
-
         isModified = false;
 
         getContactsFromDB();
@@ -496,15 +486,10 @@ public class Book extends JFrame{
             tabbedPane.setSelectedIndex(1);
             tabbedPane.setEnabledAt(0, false);
             isCreatingContact = false;
-            /*String selectLname = (String)contactsTable.getValueAt(contactsTable.getSelectedRow(), 0);
-            for (Contact c : addressBook) {
-                if (c.getLname().equals(selectLname)) {
-                    tempContact = c;
-                }
-            }*/
             // get data from db
             //reveal in field
-            tempContact = addressBook.get(contactsTable.getRowSorter().convertRowIndexToModel(contactsTable.getSelectedRow()));
+            tempContact = addressBook.get(contactsTable.getSelectedRow());
+            //tempContact = addressBook.get(contactsTable.getRowSorter().convertRowIndexToModel(contactsTable.getSelectedRow()));
             fnameField.setText(tempContact.getFname());
             lnameField.setText(tempContact.getLname());
             addressField.setText(tempContact.getStreet());
@@ -525,20 +510,13 @@ public class Book extends JFrame{
                 }
             }
             noteArea.setText(tempContact.getNote());
-            /*
-            if (isSortByLname) {
-                sortByLname();
-            } else {
-                sortByZip();
-            }
-            */
+            linkField.setText(tempContact.getLink());
         }
     }
 
     private void cancelEdit() {
         tabbedPane.setEnabledAt(0, true);
         tabbedPane.setSelectedIndex(0);
-        //contactsTable.setRowSelectionInterval(0,0);
         clearFields();
     }
 
@@ -565,16 +543,16 @@ public class Book extends JFrame{
                 newContact = new Contact(0, fname, lname, email, address, second, city, state, zip, note, phone, link);
                 addressBook.add(newContact);
                 //model.addRow(new Object[]{lname, fname, zip, phone});
-                updateContactsTable();
-                contactsTable.setRowSelectionInterval(0,0);
-                clearFields();
-                tabbedPane.setSelectedIndex(0);
-                //check sort
                 if (isSortByLname) {
                     sortByLname();
                 } else {
                     sortByZip();
                 }
+                updateContactsTable();
+                contactsTable.setRowSelectionInterval(0,0);
+                clearFields();
+                tabbedPane.setSelectedIndex(0);
+                //check sort
 
                 isModified = true;
             }
@@ -602,22 +580,16 @@ public class Book extends JFrame{
                     tempContact.setPhone(phoneField1.getText() + phoneField2.getText() + phoneField3.getText());
                     tempContact.setNote(noteArea.getText());
                     tempContact.setModified(true);
-                    //contactsTable.removeRowSelectionInterval(selectedRow, selectedRow);
-                    /*
-                    model.removeRow(selectedRow);
-                    model.addRow(new Object[]{tempContact.getLname(), tempContact.getFname(),
-                            tempContact.getZip(), tempContact.getPhone()});
-                            */
-                    updateContactsTable();
-                    contactsTable.setRowSelectionInterval(0,0);
-                    clearFields();
-                    tabbedPane.setSelectedIndex(0);
-                    tempContact = null;
                     if (isSortByLname) {
                         sortByLname();
                     } else {
                         sortByZip();
                     }
+                    updateContactsTable();
+                    contactsTable.setRowSelectionInterval(0,0);
+                    clearFields();
+                    tabbedPane.setSelectedIndex(0);
+                    tempContact = null;
                     isModified = true;
                 }
             }
@@ -635,7 +607,6 @@ public class Book extends JFrame{
             	//remove
                 deletedContact.add(addressBook.get(contactsTable.getSelectedRow()));
                 addressBook.remove(contactsTable.getSelectedRow());
-                //model.removeRow(contactsTable.getSelectedRow());
                 updateContactsTable();
             }
 
@@ -657,28 +628,30 @@ public class Book extends JFrame{
         noteArea.setText("");
     }
 
+    //sort the arraylist with last name
     public static void sortByLname() {
-    	//even save
-        if (!(clickedLname % 2 == 0)) {
+        if (clickedLname % 2 != 0) {
             Collections.sort(addressBook, new Comparator<Contact>() {
                 @Override
                 public int compare(Contact o1, Contact o2) {
+                    /*
                     if (o1.getLname().equals(o2.getLname())) {
                     	//o1 first if equal
                         return o1.getZip().compareTo(o2.getZip());
                     }
+                    */
                     return (o1.getLname().compareTo(o2.getLname()));
                 }
             });
         } else {
-        	// odd save
             Collections.sort(addressBook, new Comparator<Contact>() {
                 @Override
                 public int compare(Contact o1, Contact o2) {
+                    /*
                     if (o1.getLname().equals(o2.getLname())) {
                     	//o2 first if equal
                         return o2.getZip().compareTo(o1.getZip());
-                    }
+                    }*/
                     return (o2.getLname().compareTo(o1.getLname()));
                 }
             });
@@ -686,33 +659,36 @@ public class Book extends JFrame{
         //contactsTable.setRowSelectionInterval(0,0);
     }
 
+    //sort the arraylist with zip code
     public static void sortByZip() {
-        if (!(clickedZip % 2 == 0)) {
-        	//even sort
+        if (clickedZip % 2 == 1) {
             Collections.sort(addressBook, new Comparator<Contact>() {
                 @Override
                 public int compare(Contact o1, Contact o2) {
+                    /*
                     if (o1.getZip().equals(o2.getZip())) {
                     	//o1 first if equal
                         return o1.getLname().compareTo(o2.getLname());
-                    }
+                    }*/
+
                     return (o1.getZip().compareTo(o2.getZip()));
                 }
             });
         } else {
-        	//odd sort
             Collections.sort(addressBook, new Comparator<Contact>() {
                 @Override
                 public int compare(Contact o1, Contact o2) {
+                    /*
                     if (o1.getZip().equals(o2.getZip())) {
                     	//o2 first if equal
                         return o2.getLname().compareTo(o1.getLname());
-                    }
+                    } else if (o2.getZip() == null) {
+                        return -1;
+                    }*/
                     return (o2.getZip().compareTo(o1.getZip()));
                 }
             });
         }
-        //contactsTable.setRowSelectionInterval(0,0);
     }
 
     public void closeBook() {
@@ -768,7 +744,6 @@ public class Book extends JFrame{
             }
 
         }
-        sortByLname();
     }
 
     private static void getContactsFromDB() {
@@ -792,6 +767,7 @@ public class Book extends JFrame{
                 addressBook.add(newContact);
             }
             if (addressBook.size() != 0) {
+                sortByLname();
                 Object[] temp;
                 for (int i = 0; i < addressBook.size(); i++) {
                     temp = new Object[] {addressBook.get(i).getLname(), addressBook.get(i).getFname(),
@@ -802,7 +778,6 @@ public class Book extends JFrame{
 
             }
             //order = SortOrder.ASCENDING;
-            sortByLname();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
