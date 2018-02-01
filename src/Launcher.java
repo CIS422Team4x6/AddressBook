@@ -491,7 +491,7 @@ public class Launcher extends JFrame{
         deletedBooks = new ArrayList<>();
         JFrame frame = new Launcher();
 
-        frame.setPreferredSize(new Dimension(450, 460));
+        frame.setPreferredSize(new Dimension(450, 500));
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
