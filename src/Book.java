@@ -18,18 +18,18 @@ import java.net.URI;
 
 public class Book extends JFrame{
     private Launcher launcher;
-    private static ArrayList<Contact> addressBook;
-    private static ArrayList<Contact> deletedContact;
-    private static Contact newContact;
-    private static Contact tempContact;
-    public static String bookName;
+    private ArrayList<Contact> addressBook;
+    private ArrayList<Contact> deletedContact;
+    private Contact newContact;
+    private Contact tempContact;
+    private String bookName;
     private String saveAsName;
 
     private boolean isCreatingContact = true;
     private boolean isSortByLname = true;
-    private static boolean isModified;
-    private static int clickedLname = 1;
-    private static int clickedZip = 0;
+    private boolean isModified;
+    private int clickedLname = 1;
+    private int clickedZip = 0;
 
     private JTabbedPane tabbedPane;
     private JTextField fnameField;
@@ -45,11 +45,11 @@ public class Book extends JFrame{
     private JTextField emailField;
     private JTextField linkField;
     private JTextArea noteArea;
-    private static DefaultTableModel model;
+    private DefaultTableModel model;
     private CheckInput checkInput;
 
-    private static JTable contactsTable;
-    private static EditDB editContact;
+    private JTable contactsTable;
+    private EditDB editContact;
 //Constructor
     public Book(Launcher launcher, String bookName) {
         this.bookName = bookName;
@@ -93,6 +93,15 @@ public class Book extends JFrame{
             }
         });
         menuFile.add(itemOpen);
+
+        JMenuItem itemDelete = new JMenuItem("Delete");
+        itemDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                removeContact();
+            }
+        });
+        menuFile.add(itemDelete);
 
         JMenuItem itemClose = new JMenuItem("Close");
         itemClose.addActionListener(new ActionListener() {
@@ -256,7 +265,7 @@ public class Book extends JFrame{
                 openContact();
             }
         });
-        JButton buttonRemove = new JButton("Remove");
+        JButton buttonRemove = new JButton("Delete");
         buttonRemove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -442,6 +451,10 @@ public class Book extends JFrame{
         sortByLname();
     }
 
+    public String getBookName() {
+        return bookName;
+    }
+
     public void setAddressBook(ArrayList<Contact> book) {
         addressBook = book;
     }
@@ -488,8 +501,8 @@ public class Book extends JFrame{
             isCreatingContact = false;
             // get data from db
             //reveal in field
-            tempContact = addressBook.get(contactsTable.getSelectedRow());
-            //tempContact = addressBook.get(contactsTable.getRowSorter().convertRowIndexToModel(contactsTable.getSelectedRow()));
+            //tempContact = addressBook.get(contactsTable.getSelectedRow());
+            tempContact = addressBook.get(contactsTable.getRowSorter().convertRowIndexToModel(contactsTable.getSelectedRow()));
             fnameField.setText(tempContact.getFname());
             lnameField.setText(tempContact.getLname());
             addressField.setText(tempContact.getStreet());
@@ -557,13 +570,12 @@ public class Book extends JFrame{
                 isModified = true;
             }
         } else {
-            int selectedRow = contactsTable.getSelectedRow();
             if (!(tempContact.getFname() == fnameField.getText() && tempContact.getLname() == lnameField.getText()
                     && tempContact.getStreet() == addressField.getText() && tempContact.getSecond() == secondField.getText()
                     && tempContact.getCity() == cityField.getText() && tempContact.getState() == stateField.getText()
                     && tempContact.getZip() == zipField.getText() && tempContact.getEmail() == emailField.getText()
                     && tempContact.getPhone() == phoneField1.getText() + phoneField2.getText() + phoneField3.getText()
-                    && tempContact.getNote() == noteArea.getText())) {
+                    && tempContact.getNote() == noteArea.getText() && tempContact.getLink() == linkField.getText())) {
                 checkInput = new CheckInput(this, fnameField.getText(), lnameField.getText(),
                         addressField.getText(), secondField.getText(), noteArea.getText(), linkField.getText(),
                         emailField.getText(),cityField.getText(), stateField.getText(),
@@ -579,6 +591,7 @@ public class Book extends JFrame{
                     tempContact.setEmail(emailField.getText());
                     tempContact.setPhone(phoneField1.getText() + phoneField2.getText() + phoneField3.getText());
                     tempContact.setNote(noteArea.getText());
+                    tempContact.setLink(linkField.getText());
                     tempContact.setModified(true);
                     if (isSortByLname) {
                         sortByLname();
@@ -619,27 +632,24 @@ public class Book extends JFrame{
         fnameField.setText("");
         lnameField.setText("");
         addressField.setText("");
+        secondField.setText("");
         cityField.setText("");
         stateField.setText("");
         zipField.setText("");
         phoneField1.setText("");
         phoneField2.setText("");
         phoneField3.setText("");
+        emailField.setText("");
         noteArea.setText("");
+        linkField.setText("");
     }
 
     //sort the arraylist with last name
-    public static void sortByLname() {
+    public void sortByLname() {
         if (clickedLname % 2 != 0) {
             Collections.sort(addressBook, new Comparator<Contact>() {
                 @Override
                 public int compare(Contact o1, Contact o2) {
-                    /*
-                    if (o1.getLname().equals(o2.getLname())) {
-                    	//o1 first if equal
-                        return o1.getZip().compareTo(o2.getZip());
-                    }
-                    */
                     return (o1.getLname().compareTo(o2.getLname()));
                 }
             });
@@ -647,30 +657,18 @@ public class Book extends JFrame{
             Collections.sort(addressBook, new Comparator<Contact>() {
                 @Override
                 public int compare(Contact o1, Contact o2) {
-                    /*
-                    if (o1.getLname().equals(o2.getLname())) {
-                    	//o2 first if equal
-                        return o2.getZip().compareTo(o1.getZip());
-                    }*/
                     return (o2.getLname().compareTo(o1.getLname()));
                 }
             });
         }
-        //contactsTable.setRowSelectionInterval(0,0);
     }
 
     //sort the arraylist with zip code
-    public static void sortByZip() {
+    public void sortByZip() {
         if (clickedZip % 2 == 1) {
             Collections.sort(addressBook, new Comparator<Contact>() {
                 @Override
                 public int compare(Contact o1, Contact o2) {
-                    /*
-                    if (o1.getZip().equals(o2.getZip())) {
-                    	//o1 first if equal
-                        return o1.getLname().compareTo(o2.getLname());
-                    }*/
-
                     return (o1.getZip().compareTo(o2.getZip()));
                 }
             });
@@ -678,13 +676,6 @@ public class Book extends JFrame{
             Collections.sort(addressBook, new Comparator<Contact>() {
                 @Override
                 public int compare(Contact o1, Contact o2) {
-                    /*
-                    if (o1.getZip().equals(o2.getZip())) {
-                    	//o2 first if equal
-                        return o2.getLname().compareTo(o1.getLname());
-                    } else if (o2.getZip() == null) {
-                        return -1;
-                    }*/
                     return (o2.getZip().compareTo(o1.getZip()));
                 }
             });
@@ -692,6 +683,11 @@ public class Book extends JFrame{
     }
 
     public void closeBook() {
+        for (int i = 0; i < launcher.getOpenBook().size(); i++) {
+            if (bookName.equals(launcher.getOpenBook().get(i).bookName)) {
+                Book deleted = launcher.getOpenBook().remove(i);
+            }
+        }
         if (isModified) {
         	// new pane to ask save option
             int choice = JOptionPane.showConfirmDialog(null, "Save the change?", "Save Change",
@@ -705,7 +701,6 @@ public class Book extends JFrame{
         } else {
             this.dispose();
         }
-        launcher.openBooks.remove(this);
     }
 
     public void saveBook() {
@@ -716,7 +711,6 @@ public class Book extends JFrame{
                         c.getSecond(), c.getCity(), c.getState(), c.getZip(), c.getNote(), c.getPhone(), c.getLink());
             } else {
                 if (c.getIsModified()) {
-                    //System.out.println(c.getLname());
                     editContact.EditData(c.getId(), c.getFname(), c.getLname(), c.getEmail(), c.getStreet(), c.getSecond(),
                             c.getCity(), c.getState(), c.getZip(), c.getNote(), c.getPhone(), c.getLink());
                 }
@@ -746,7 +740,7 @@ public class Book extends JFrame{
         }
     }
 
-    private static void getContactsFromDB() {
+    private void getContactsFromDB() {
     	// import all data from db into arraylist
         String sql = "SELECT * FROM AddressBook";
         addressBook = new ArrayList<>();

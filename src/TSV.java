@@ -10,9 +10,9 @@ import java.util.ArrayList;
 public class TSV {
     private Launcher launcher;
     private String bookName;
-    private static ArrayList<Contact> book;
-    private static EditDB editContact;
-    private static Contact newContact;
+    private ArrayList<Contact> book;
+    private EditDB editContact;
+    private Contact newContact;
 // Constructor
     public TSV(Launcher launcher, String bookName) {
         this.launcher = launcher;
@@ -43,7 +43,7 @@ public class TSV {
                 for  (Contact c : book) {
                     temp = c.getCity() + "\t" + c.getState() + "\t" + c.getZip() + "\t"
                             + c.getStreet() + "\t" + c.getSecond() + "\t" + c.getLname() + "\t"
-                            + c.getFname() + "\t" + c.getPhone() + "\n";
+                            + c.getFname() + "\t " + c.getPhone() + "\n";
                     writer.append(temp);
                 }
                 writer.close();
@@ -63,11 +63,12 @@ public class TSV {
     public void importTSV(String path) {
         try {
             boolean success = true;
-            int countLine = 0;
+            //int countLine = 0;
             BufferedReader reader = new BufferedReader(new FileReader(path));
+            /*
             while (reader.readLine() != null) {
                 countLine += 1;
-            }
+            }*/
             reader = new BufferedReader(new FileReader(path));
             //get file path
             bookName = path.substring((path.lastIndexOf("/") + 1), (path.lastIndexOf(".")));
@@ -76,21 +77,20 @@ public class TSV {
                     "\tLastName" + "\tFirstName" + "\tPhone")) {
                 String[] info;
                 String line;
-                for (int i = 1; i < countLine; i++) {
-                    line = reader.readLine() + "\t";
-                    if (line != null) {
-                        info = line.split("\\t");
-                        if (info.length == 8) {
-                            //import all data into contact
-                            newContact = new Contact(0, info[6], info[5], "", info[3], info[4],
-                                    info[0], info[1], info[2], "", info[7], "");
-                            book.add(newContact);
-                        } else {
-                            JOptionPane.showMessageDialog(null, "The format of the contact is not match. Import failed");
-                            success = false;
-                            break;
-                        }
+                while ((line = reader.readLine()) != null) {
+                    info = line.split("\\t");
+                    if (info.length == 8) {
+                        //import all data into contact
+                        newContact = new Contact(0, info[6], info[5], "", info[3], info[4],
+                                info[0], info[1], info[2], "", info[7].trim(), "");
+                        book.add(newContact);
+                    } else {
+                        System.out.println(line + info.length);
+                        JOptionPane.showMessageDialog(null, "The format of the contact is not match. Import failed");
+                        success = false;
+                        break;
                     }
+
                 }
                 boolean dup = false;
                 if (launcher.addressBooks.size() != 0) {
@@ -117,6 +117,7 @@ public class TSV {
                     }
                 }
             } else {
+                System.out.println("here");
                 JOptionPane.showMessageDialog(null, "The format is not match. Import failed");
             }
         } catch (FileNotFoundException e1) {
@@ -126,7 +127,7 @@ public class TSV {
         }
     }
 
-    private static void getContactsFromDB() {
+    private void getContactsFromDB() {
     	// database reader
         String sql = "SELECT * FROM AddressBook";
         book = new ArrayList<>();

@@ -18,13 +18,13 @@ import java.nio.file.*;
 public class Launcher extends JFrame{
     public static ArrayList<AdressBook> addressBooks;
     private static ArrayList<AdressBook> deletedBooks;
-    private static ArrayList<String> openedBooks;
     public static AdressBook newBook;
     private static JList<String> booksList;
     private static Boolean isModified;
     public static ArrayList<Book> openBooks;
     private TSV tsv;
-//Constructor
+
+    //Constructor
     private Launcher() {
         openBooks = new ArrayList<>();
 
@@ -139,9 +139,9 @@ public class Launcher extends JFrame{
             public void insertUpdate(DocumentEvent e) {
                 //model.clear();
                 ArrayList<String> tempList = new ArrayList<>();
-                String s = searchField.getText();
+                String s = searchField.getText().toLowerCase();
                 for (AdressBook ab : addressBooks) {
-                    if (ab.getBookName().contains(s)) {
+                    if (ab.getBookName().toLowerCase().contains(s)) {
                         //model.addElement(ab.getBookName());
                         tempList.add(ab.getBookName());
                     }
@@ -204,7 +204,7 @@ public class Launcher extends JFrame{
                 openBookView();
             }
         });
-        JButton buttonRemove = new JButton("Remove");
+        JButton buttonRemove = new JButton("Delete");
         buttonRemove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -259,6 +259,7 @@ public class Launcher extends JFrame{
             tsv.importTSV(path);
         }
         isModified = true;
+        saveBooksList();
         updateBooksList();
     }
 
@@ -361,7 +362,7 @@ public class Launcher extends JFrame{
             //String bookName = addressBooks.get(booksList.getSelectedIndex()).getBookName();
             //ConnectDB.createNewTable(bookName);
             for (Book b : openBooks) {
-                if (b.bookName.equals(bookName)) {
+                if (b.getBookName().equals(bookName)) {
                     opened = true;
                 }
             }
@@ -482,8 +483,15 @@ public class Launcher extends JFrame{
             }
 
         }
+        getAllBooksFromDB();
+        deletedBooks = new ArrayList<>();
 
         getRootPane().putClientProperty("Window.documentModified", Boolean.FALSE);
+    }
+
+    //remove open book
+    public static ArrayList<Book> getOpenBook() {
+        return openBooks;
     }
 
     public static void main(String[] args) {

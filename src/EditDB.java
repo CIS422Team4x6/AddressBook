@@ -3,7 +3,7 @@ import java.sql.*;
 
 public class EditDB {
 
-    public static Connection conn;
+    public Connection conn;
 
     public EditDB(String fileName) {
         // SQLite connection string
@@ -63,7 +63,7 @@ public class EditDB {
         }
     }
 // edit any contact info from db
-    void EditData(int id, String fname, String lname, String email, String street, String second,
+    public void EditData(int id, String fname, String lname, String email, String street, String second,
                   String city, String state, String zip, String note, String phone, String link){
         String sql = "UPDATE AddressBook SET fname = ?,  "
                 + "lname = ?, "
