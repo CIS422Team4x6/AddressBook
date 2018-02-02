@@ -258,7 +258,7 @@ public class Launcher extends JFrame{
             //import
             tsv.importTSV(path);
         }
-        isModified = true;
+        //isModified = true;
         saveBooksList();
         updateBooksList();
     }
